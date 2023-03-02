@@ -1,10 +1,10 @@
 # ecommerce
 
-Projeto Integrador II - 3º ano de Engenharia de Software
+# Projeto Integrador II - 3º ano de Engenharia de Software
 
 Aluna: Raquel dos Santos de Oliveira
 
-#Projeto:# E-commerce
+Projeto: E-commerce
 Descrição: Criação de um e-commerce para venda de produtos e controle de estoque, bem como controle de pagamentos.
 
 Principais funcionalidades:
