@@ -11,3 +11,5 @@ Principais funcionalidades:
 Cadastro, alteração, exclusão e listagem de produtos (CRUD).
 Controle de estoque
 Controle de pagamento e vendas
+
+Tecnologia utilizadas: django, bootstrap... 
