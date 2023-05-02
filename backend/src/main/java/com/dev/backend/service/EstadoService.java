@@ -29,7 +29,7 @@ public class EstadoService {
         return estadoRepository.saveAndFlush(estado);
     }
 
-    // ESCLUIR
+    // ExCLUIR
     public void excluir(Long id) {
         // criando objeto do tipo Estado
         Estado estado = estadoRepository.findById(id).get();
