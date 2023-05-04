@@ -18,7 +18,7 @@ import com.dev.backend.service.CategoriaService;
 
 @RestController
 @RequestMapping("/api/categoria")
-public class CategoriaControler {
+public class CategoriaController {
 
     @Autowired
     private CategoriaService categoriaService;
