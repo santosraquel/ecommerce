@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.dev.backend.entity.ProdutoImagens;
 import com.dev.backend.service.ProdutoImagensService;
@@ -24,26 +26,26 @@ public class ProdutoImagensController {
 
     // INSERIR
     @PostMapping("/")
-    public ProdutoImagens inserir(@RequestBody ProdutoImagens produtoImagens) {
-        return produtoImagensService.inserir(produtoImagens);
+    public ProdutoImagens inserir(@RequestParam("idProduto") Long idProduto, @RequestParam("file") MultipartFile file) {
+        return produtoImagensService.inserir(idProduto, file);
     }
 
     // ALTERAR
     @PutMapping("/")
-    public ProdutoImagens alterar(@RequestBody ProdutoImagens produtoImagens) {
-        return produtoImagensService.alterar(produtoImagens);
+    public ProdutoImagens alterar(@RequestBody ProdutoImagens objeto) {
+        return produtoImagensService.alterar(objeto);
     }
 
     // EXCLUIR
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable Long id) {
+    public ResponseEntity<Void> excluir(@PathVariable("id") Long id) {
         produtoImagensService.excluir(id);
         return ResponseEntity.ok().build();
     }
 
     // BUSCAR TODOS
     @GetMapping("/")
-    public List<ProdutoImagens> bucarTodos() {
+    public List<ProdutoImagens> buscarTodos() {
         return produtoImagensService.buscarTodos();
     }
 }
