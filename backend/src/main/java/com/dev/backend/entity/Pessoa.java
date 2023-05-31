@@ -33,23 +33,25 @@ public class Pessoa {
     private String senha;
     private String endereco;
     private String cep;
+    @ManyToOne
+    @JoinColumn(name = "idCidade")
+    private Cidade cidade;
+
+    @OneToMany(mappedBy = "pessoa", orphanRemoval = true, cascade = { CascadeType.PERSIST,
+            CascadeType.MERGE })
+    @Setter(value = AccessLevel.NONE)
+    private List<PermissaoPessoa> permissaoPessoas;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCriacao;
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataAtualizacao;
 
-    @ManyToOne
-    @JoinColumn(name = "idCidade")
-    private Cidade cidade;
-
-    @OneToMany(mappedBy = "pessoa", orphanRemoval = true, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @Setter(value = AccessLevel.NONE) // desabilirtando o método set que o lombok fornece
-    private List<PermissaoPessoa> permissaoPessoas;
-
-    public void setPermissaoPessoa(List<PermissaoPessoa> pp) {
+    public void setPermissaoPessoas(List<PermissaoPessoa> pp) {
         for (PermissaoPessoa p : pp) {
-            p.setPessoa(this); // setando pessoa como o próprio obj da classe
+            p.setPessoa(this);
         }
         this.permissaoPessoas = pp;
     }
+
 }
