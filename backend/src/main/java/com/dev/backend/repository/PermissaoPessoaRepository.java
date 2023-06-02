@@ -1,10 +1,10 @@
-// package com.dev.backend.repository;
+package com.dev.backend.repository;
 
-// import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-// import com.dev.backend.entity.PermissaoPessoa;
+import com.dev.backend.entity.PermissaoPessoa;
 
-// public interface PermissaoPessoaRepository extends
-// JpaRepository<PermissaoPessoa, Long> {
+public interface PermissaoPessoaRepository extends
+        JpaRepository<PermissaoPessoa, Long> {
 
-// }
+}

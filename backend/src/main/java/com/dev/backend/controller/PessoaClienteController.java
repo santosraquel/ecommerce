@@ -8,20 +8,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dev.backend.dto.PessoaClienteRequestDTO;
 import com.dev.backend.entity.Pessoa;
-import com.dev.backend.service.PessoaService;
+import com.dev.backend.service.PessoaClienteService;
 
 @RestController
 @RequestMapping("/api/cliente")
 public class PessoaClienteController {
 
     @Autowired
-    private PessoaService pessoaService;
+    private PessoaClienteService pessoaClienteService;
 
     // INSERIR
     @PostMapping("/")
     public Pessoa inserir(@RequestBody PessoaClienteRequestDTO pessoaClienteRequestDTO) {
-        Pessoa pessoa = new PessoaClienteRequestDTO().converter(pessoaClienteRequestDTO);
-        return pessoaService.inserir(pessoa);
+        return pessoaClienteService.registrar(pessoaClienteRequestDTO);
     }
 
 }
