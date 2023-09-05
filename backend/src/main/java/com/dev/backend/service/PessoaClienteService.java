@@ -18,12 +18,17 @@ public class PessoaClienteService {
     @Autowired
     private PermissaoPessoaService permissaoPessoaService;
 
+    @Autowired
+    private EmailService emailService;
+
     // INSERIR
     public Pessoa registrar(PessoaClienteRequestDTO pessoaClienteRequestDTO) {
         Pessoa pessoa = new PessoaClienteRequestDTO().converter(pessoaClienteRequestDTO);
         pessoa.setDataCriacao(new Date());
         Pessoa pessoaNova = pessoaClienteRepository.saveAndFlush(pessoa);
         permissaoPessoaService.vincularPessoaPermissaoCliente(pessoaNova);
+        emailService.enviarEmailTexto(pessoaNova.getEmail(), "Cadastro na Loja Rosa Neon",
+                "Cadastro na loja foi realizado com sucesso! Em breve você receberá a senha de acesso por e-mail");
         return pessoaNova;
     }
 }

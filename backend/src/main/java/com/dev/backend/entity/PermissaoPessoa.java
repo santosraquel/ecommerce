@@ -28,9 +28,11 @@ public class PermissaoPessoa {
     @JoinColumn(name = "idPessoa")
     @JsonIgnore
     private Pessoa pessoa;
+
     @ManyToOne
     @JoinColumn(name = "idPermissao")
     private Permissao permissao;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCriacao;
     @Temporal(TemporalType.TIMESTAMP)
