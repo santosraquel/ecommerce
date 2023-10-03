@@ -14,7 +14,7 @@ import { TriStateCheckbox } from 'primereact/tristatecheckbox';
 import { ToggleButton } from 'primereact/togglebutton';
 import { Rating } from 'primereact/rating';
 import { CustomerService } from '../service/CustomerService';
-import { ProductService } from '../service/ProductService';
+import { EstadoService } from '../service/EstadoService';
 
 const TableDemo = () => {
     const [customers1, setCustomers1] = useState(null);
@@ -24,7 +24,7 @@ const TableDemo = () => {
     const [loading1, setLoading1] = useState(true);
     const [loading2, setLoading2] = useState(true);
     const [idFrozen, setIdFrozen] = useState(false);
-    const [products, setProducts] = useState([]);
+    const [estados, setEstados] = useState([]);
     const [expandedRows, setExpandedRows] = useState(null);
 
     const representatives = [
@@ -45,7 +45,7 @@ const TableDemo = () => {
     ];
 
     const customerService = new CustomerService();
-    const productService = new ProductService();
+    const estadoService = new EstadoService();
 
     useEffect(() => {
         setLoading2(true);
@@ -53,7 +53,7 @@ const TableDemo = () => {
         customerService.getCustomersLarge().then(data => { setCustomers1(getCustomers(data)); setLoading1(false) });
         customerService.getCustomersLarge().then(data => { setCustomers2(getCustomers(data)); setLoading2(false); });
         customerService.getCustomersMedium().then(data => setCustomers3(data));
-        productService.getProductsWithOrdersSmall().then(data => setProducts(data));
+        estadoService.getEstadosWithOrdersSmall().then(data => setEstados(data));
 
         initFilters1();
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -198,7 +198,7 @@ const TableDemo = () => {
 
     const expandAll = () => {
         let _expandedRows = {};
-        products.forEach(p => _expandedRows[`${p.id}`] = true);
+        estados.forEach(p => _expandedRows[`${p.id}`] = true);
 
         setExpandedRows(_expandedRows);
     }
@@ -337,7 +337,7 @@ const TableDemo = () => {
             <div className="col-12">
                 <div className="card">
                     <h5>Row Expand</h5>
-                    <DataTable value={products} expandedRows={expandedRows} onRowToggle={(e) => setExpandedRows(e.data)} responsiveLayout="scroll"
+                    <DataTable value={estados} expandedRows={expandedRows} onRowToggle={(e) => setExpandedRows(e.data)} responsiveLayout="scroll"
                         rowExpansionTemplate={rowExpansionTemplate} dataKey="id" header={header}>
                         <Column expander style={{ width: '3em' }} />
                         <Column field="name" header="Name" sortable />

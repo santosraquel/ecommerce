@@ -5,7 +5,7 @@ import { Dropdown } from 'primereact/dropdown';
 import { Rating } from 'primereact/rating';
 import { PickList } from 'primereact/picklist';
 import { OrderList } from 'primereact/orderlist';
-import { ProductService } from '../service/ProductService';
+import { EstadoService } from '../service/EstadoService';
 
 const ListDemo = () => {
     const listValue = [
@@ -33,8 +33,8 @@ const ListDemo = () => {
     ];
 
     useEffect(() => {
-        const productService = new ProductService();
-        productService.getProducts().then(data => setDataviewValue(data));
+        const estadoService = new EstadoService();
+        estadoService.getEstados().then(data => setDataviewValue(data));
     }, []);
 
     const onSortChange = (event) => {

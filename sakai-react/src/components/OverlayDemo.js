@@ -8,7 +8,7 @@ import { DataTable } from 'primereact/datatable';
 import { OverlayPanel } from 'primereact/overlaypanel';
 import { InputText } from 'primereact/inputtext';
 import { confirmPopup } from 'primereact/confirmpopup';
-import { ProductService } from '../service/ProductService';
+import { EstadoService } from '../service/EstadoService';
 
 const OverlayDemo = () => {
     const [displayBasic, setDisplayBasic] = useState(false);
@@ -18,8 +18,8 @@ const OverlayDemo = () => {
     const [visibleTop, setVisibleTop] = useState(false);
     const [visibleBottom, setVisibleBottom] = useState(false);
     const [visibleFullScreen, setVisibleFullScreen] = useState(false);
-    const [products, setProducts] = useState(null);
-    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [estados, setEstados] = useState(null);
+    const [selectedEstado, setSelectedEstado] = useState(null);
     const op = useRef(null);
     const op2 = useRef(null);
     const toast = useRef(null);
@@ -43,8 +43,8 @@ const OverlayDemo = () => {
     };
 
     useEffect(() => {
-        const productService = new ProductService();
-        productService.getProductsSmall().then(data => setProducts(data));
+        const estadoService = new EstadoService();
+        estadoService.getEstadosSmall().then(data => setEstados(data));
     }, []);
 
     const toggle = (event) => {
@@ -59,9 +59,9 @@ const OverlayDemo = () => {
         return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
     };
 
-    const onProductSelect = (event) => {
+    const onEstadoSelect = (event) => {
         op2.current.hide();
-        toast.current.show({ severity: 'info', summary: 'Product Selected', detail: event.data.name, life: 3000 });
+        toast.current.show({ severity: 'info', summary: 'Estado Selected', detail: event.data.name, life: 3000 });
     };
 
     const basicDialogFooter = <Button type="button" label="Dismiss" onClick={() => setDisplayBasic(false)} icon="pi pi-check" className="p-button-secondary" />;
@@ -107,8 +107,8 @@ const OverlayDemo = () => {
                             <div className="col-6">
                                 <Button type="button" label="DataTable" onClick={toggleDataTable} className="p-button-success" />
                                 <OverlayPanel ref={op2} appendTo={document.body} showCloseIcon id="overlay_panel" style={{ width: '450px' }}>
-                                    <DataTable value={products} selection={selectedProduct} onSelectionChange={(e) => setSelectedProduct(e.value)} selectionMode="single" responsiveLayout="scroll"
-                                        paginator rows={5} onRowSelect={onProductSelect}>
+                                    <DataTable value={estados} selection={selectedEstado} onSelectionChange={(e) => setSelectedEstado(e.value)} selectionMode="single" responsiveLayout="scroll"
+                                        paginator rows={5} onRowSelect={onEstadoSelect}>
                                         <Column field="name" header="Name" sortable headerStyle={{ minWidth: '10rem' }} />
                                         <Column header="Image" body={imageBodyTemplate} headerStyle={{ minWidth: '10rem' }} />
                                         <Column field="price" header="Price" body={priceBodyTemplate} sortable headerStyle={{ minWidth: '8rem' }} />

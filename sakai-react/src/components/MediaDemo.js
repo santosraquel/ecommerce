@@ -3,11 +3,11 @@ import { Carousel } from 'primereact/carousel';
 import { Galleria } from 'primereact/galleria';
 import { Button } from 'primereact/button';
 import { Image } from "primereact/image";
-import { ProductService } from '../service/ProductService';
+import { EstadoService } from '../service/EstadoService';
 import { PhotoService } from '../service/PhotoService';
 
 const MediaDemo = () => {
-    const [products, setProducts] = useState([]);
+    const [estados, setEstados] = useState([]);
     const [images, setImages] = useState([]);
     const galleriaResponsiveOptions = [
         {
@@ -46,26 +46,26 @@ const MediaDemo = () => {
     ];
 
     useEffect(() => {
-        const productService = new ProductService();
-        productService.getProductsSmall().then((products) => setProducts(products));
+        const estadoService = new EstadoService();
+        estadoService.getEstadosSmall().then((estados) => setEstados(estados));
 
         const photoService = new PhotoService();
         photoService.getImages().then((images) => setImages(images));
     }, []);
 
-    const carouselItemTemplate = (product) => {
+    const carouselItemTemplate = (estado) => {
         return (
             <div className="product-item">
                 <div className="product-item-content">
                     <div className="mb-3">
-                        <img src={`assets/demo/images/product/${product.image}`} alt={product.name} className="product-image" />
+                        <img src={`assets/demo/images/product/${estado.image}`} alt={estado.name} className="product-image" />
                     </div>
                     <div>
                         <h4 className="p-mb-1">
-                            {product.name}
+                            {estado.name}
                         </h4>
-                        <h6 className="mt-0 mb-3">${product.price}</h6>
-                        <span className={`product-badge status-${product.inventoryStatus.toLowerCase()}`}>{product.inventoryStatus}</span>
+                        <h6 className="mt-0 mb-3">${estado.price}</h6>
+                        <span className={`product-badge status-${estado.inventoryStatus.toLowerCase()}`}>{estado.inventoryStatus}</span>
                         <div className="car-buttons mt-5">
                             <Button type="button" className="p-button p-button-rounded mr-2" icon="pi pi-search"></Button>
                             <Button type="button" className="p-button-success p-button-rounded mr-2" icon="pi pi-star"></Button>
@@ -85,7 +85,7 @@ const MediaDemo = () => {
             <div className="col-12">
                 <div className="card">
                     <h5>Carousel</h5>
-                    <Carousel value={products} numVisible={3} numScroll={3} responsiveOptions={carouselResponsiveOptions} itemTemplate={carouselItemTemplate}></Carousel>
+                    <Carousel value={estados} numVisible={3} numScroll={3} responsiveOptions={carouselResponsiveOptions} itemTemplate={carouselItemTemplate}></Carousel>
                 </div>
             </div>
 

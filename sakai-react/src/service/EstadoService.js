@@ -1,16 +1,16 @@
 import axios from 'axios';
 
-export class ProductService {
+export class EstadoService {
 
-    getProductsSmall() {
+    getEstadosSmall() {
         return axios.get('assets/demo/data/products-small.json').then(res => res.data.data);
     }
 
-    getProducts() {
+    getEstados() {
         return axios.get('assets/demo/data/products.json').then(res => res.data.data);
     }
 
-    getProductsWithOrdersSmall() {
+    getEstadosWithOrdersSmall() {
         return axios.get('assets/demo/data/products-orders-small.json').then(res => res.data.data);
     }
 }

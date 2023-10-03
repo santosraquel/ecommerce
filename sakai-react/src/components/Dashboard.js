@@ -4,7 +4,7 @@ import { Button } from 'primereact/button';
 import { Chart } from 'primereact/chart';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { ProductService } from '../service/ProductService';
+import { EstadoService } from '../service/EstadoService';
 
 const lineData = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -29,7 +29,7 @@ const lineData = {
 };
 
 const Dashboard = (props) => {
-    const [products, setProducts] = useState(null);
+    const [estados, setEstados] = useState(null);
     const menu1 = useRef(null);
     const menu2 = useRef(null);
     const [lineOptions, setLineOptions] = useState(null)
@@ -99,8 +99,8 @@ const Dashboard = (props) => {
     }
 
     useEffect(() => {
-        const productService = new ProductService();
-        productService.getProductsSmall().then(data => setProducts(data));
+        const estadoService = new EstadoService();
+        estadoService.getEstadosSmall().then(data => setEstados(data));
     }, []);
 
     useEffect(() => {
@@ -181,7 +181,7 @@ const Dashboard = (props) => {
             <div className="col-12 xl:col-6">
                 <div className="card">
                     <h5>Recent Sales</h5>
-                    <DataTable value={products} rows={5} paginator responsiveLayout="scroll">
+                    <DataTable value={estados} rows={5} paginator responsiveLayout="scroll">
                         <Column header="Image" body={(data) => <img className="shadow-2" src={`assets/demo/images/product/${data.image}`} alt={data.image} width="50"/>}/>
                         <Column field="name" header="Name" sortable style={{width: '35%'}}/>
                         <Column field="price" header="Price" sortable style={{width: '35%'}} body={(data) => formatCurrency(data.price)}/>

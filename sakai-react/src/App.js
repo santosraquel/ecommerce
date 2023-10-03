@@ -9,6 +9,7 @@ import { AppMenu } from './AppMenu';
 import { AppConfig } from './AppConfig';
 
 import Dashboard from './components/Dashboard';
+import Estado from './components/Estado';
 import ButtonDemo from './components/ButtonDemo';
 import ChartDemo from './components/ChartDemo';
 import Documentation from './components/Documentation';
@@ -163,6 +164,12 @@ const App = () => {
             }]
         },
         {
+            label: 'Cadastros',
+            items: [
+                {label: 'Estados', icon: 'pi pi-fw pi-id-card', to: '/estados'},
+            ]
+        },
+        {
             label: 'UI Components', icon: 'pi pi-fw pi-sitemap',
             items: [
                 { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', to: '/formlayout' },
@@ -297,6 +304,7 @@ const App = () => {
             <div className="layout-main-container">
                 <div className="layout-main">
                     <Route path="/" exact render={() => <Dashboard colorMode={layoutColorMode} location={location} />} />
+                    <Route path="/estados" component={Estado} />
                     <Route path="/formlayout" component={FormLayoutDemo} />
                     <Route path="/input" component={InputDemo} />
                     <Route path="/floatlabel" component={FloatLabelDemo} />

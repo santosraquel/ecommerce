@@ -12,12 +12,13 @@ import { RadioButton } from 'primereact/radiobutton';
 import { InputNumber } from 'primereact/inputnumber';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
-import { ProductService } from '../service/ProductService';
+import { EstadoService } from '../service/EstadoService';
 
 const Crud = () => {
-    let emptyProduct = {
+    let emptyEstado = {
         id: null,
         name: '',
+        sigla:'',
         image: null,
         description: '',
         category: null,
@@ -27,20 +28,20 @@ const Crud = () => {
         inventoryStatus: 'INSTOCK'
     };
 
-    const [products, setProducts] = useState(null);
-    const [productDialog, setProductDialog] = useState(false);
-    const [deleteProductDialog, setDeleteProductDialog] = useState(false);
-    const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
-    const [product, setProduct] = useState(emptyProduct);
-    const [selectedProducts, setSelectedProducts] = useState(null);
+    const [estados, setEstados] = useState(null);
+    const [estadoDialog, setEstadoDialog] = useState(false);
+    const [deleteEstadoDialog, setDeleteEstadoDialog] = useState(false);
+    const [deleteEstadosDialog, setDeleteEstadosDialog] = useState(false);
+    const [estado, setEstado] = useState(emptyEstado);
+    const [selectedEstados, setSelectedEstados] = useState(null);
     const [submitted, setSubmitted] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
     const dt = useRef(null);
 
     useEffect(() => {
-        const productService = new ProductService();
-        productService.getProducts().then(data => setProducts(data));
+        const estadoService = new EstadoService();
+        estadoService.getEstados().then(data => setEstados(data));
     }, []);
 
     const formatCurrency = (value) => {
@@ -48,71 +49,71 @@ const Crud = () => {
     }
 
     const openNew = () => {
-        setProduct(emptyProduct);
+        setEstado(emptyEstado);
         setSubmitted(false);
-        setProductDialog(true);
+        setEstadoDialog(true);
     }
 
     const hideDialog = () => {
         setSubmitted(false);
-        setProductDialog(false);
+        setEstadoDialog(false);
     }
 
-    const hideDeleteProductDialog = () => {
-        setDeleteProductDialog(false);
+    const hideDeleteEstadoDialog = () => {
+        setDeleteEstadoDialog(false);
     }
 
-    const hideDeleteProductsDialog = () => {
-        setDeleteProductsDialog(false);
+    const hideDeleteEstadosDialog = () => {
+        setDeleteEstadosDialog(false);
     }
 
-    const saveProduct = () => {
+    const saveEstado = () => {
         setSubmitted(true);
 
-        if (product.name.trim()) {
-            let _products = [...products];
-            let _product = { ...product };
-            if (product.id) {
-                const index = findIndexById(product.id);
+        if (estado.name.trim()) {
+            let _estados = [...estados];
+            let _estado = { ...estado };
+            if (estado.id) {
+                const index = findIndexById(estado.id);
 
-                _products[index] = _product;
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
+                _estados[index] = _estado;
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Estado Updated', life: 3000 });
             }
             else {
-                _product.id = createId();
-                _product.image = 'product-placeholder.svg';
-                _products.push(_product);
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
+                _estado.id = createId();
+                _estado.image = 'product-placeholder.svg';
+                _estados.push(estado);
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Estado Created', life: 3000 });
             }
 
-            setProducts(_products);
-            setProductDialog(false);
-            setProduct(emptyProduct);
+            setEstados(_estados);
+            setEstadoDialog(false);
+            setEstado(emptyEstado);
         }
     }
 
-    const editProduct = (product) => {
-        setProduct({ ...product });
-        setProductDialog(true);
+    const editEstado = (estado) => {
+        setEstado({ ...estado });
+        setEstadoDialog(true);
     }
 
-    const confirmDeleteProduct = (product) => {
-        setProduct(product);
-        setDeleteProductDialog(true);
+    const confirmDeleteEstado = (estado) => {
+        setEstado(estado);
+        setDeleteEstadoDialog(true);
     }
 
-    const deleteProduct = () => {
-        let _products = products.filter(val => val.id !== product.id);
-        setProducts(_products);
-        setDeleteProductDialog(false);
-        setProduct(emptyProduct);
-        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
+    const deleteEstado = () => {
+        let _estados = estados.filter(val => val.id !== estado.id);
+        setEstados(_estados);
+        setDeleteEstadoDialog(false);
+        setEstado(emptyEstado);
+        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Estado Deleted', life: 3000 });
     }
 
     const findIndexById = (id) => {
         let index = -1;
-        for (let i = 0; i < products.length; i++) {
-            if (products[i].id === id) {
+        for (let i = 0; i < estados.length; i++) {
+            if (estados[i].id === id) {
                 index = i;
                 break;
             }
@@ -135,37 +136,37 @@ const Crud = () => {
     }
 
     const confirmDeleteSelected = () => {
-        setDeleteProductsDialog(true);
+        setDeleteEstadosDialog(true);
     }
 
-    const deleteSelectedProducts = () => {
-        let _products = products.filter(val => !selectedProducts.includes(val));
-        setProducts(_products);
-        setDeleteProductsDialog(false);
-        setSelectedProducts(null);
-        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
+    const deleteSelectedEstados = () => {
+        let _estados = estados.filter(val => !selectedEstados.includes(val));
+        setEstados(_estados);
+        setDeleteEstadosDialog(false);
+        setSelectedEstados(null);
+        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Estado Deleted', life: 3000 });
     }
 
     const onCategoryChange = (e) => {
-        let _product = { ...product };
-        _product['category'] = e.value;
-        setProduct(_product);
+        let _estado = { ...estado };
+        _estado['category'] = e.value;
+        setEstado(_estado);
     }
 
     const onInputChange = (e, name) => {
         const val = (e.target && e.target.value) || '';
-        let _product = { ...product };
-        _product[`${name}`] = val;
+        let _estado = { ...estado };
+        _estado[`${name}`] = val;
 
-        setProduct(_product);
+        setEstado(_estado);
     }
 
     const onInputNumberChange = (e, name) => {
         const val = e.value || 0;
-        let _product = { ...product };
-        _product[`${name}`] = val;
+        let _estado = { ...estado };
+        _estado[`${name}`] = val;
 
-        setProduct(_product);
+        setEstado(_estado);
     }
 
     const leftToolbarTemplate = () => {
@@ -173,7 +174,7 @@ const Crud = () => {
             <React.Fragment>
                 <div className="my-2">
                     <Button label="New" icon="pi pi-plus" className="p-button-success mr-2" onClick={openNew} />
-                    <Button label="Delete" icon="pi pi-trash" className="p-button-danger" onClick={confirmDeleteSelected} disabled={!selectedProducts || !selectedProducts.length} />
+                    <Button label="Delete" icon="pi pi-trash" className="p-button-danger" onClick={confirmDeleteSelected} disabled={!selectedEstados || !selectedEstados.length} />
                 </div>
             </React.Fragment>
         )
@@ -254,8 +255,8 @@ const Crud = () => {
     const actionBodyTemplate = (rowData) => {
         return (
             <div className="actions">
-                <Button icon="pi pi-pencil" className="p-button-rounded p-button-success mr-2" onClick={() => editProduct(rowData)} />
-                <Button icon="pi pi-trash" className="p-button-rounded p-button-warning mt-2" onClick={() => confirmDeleteProduct(rowData)} />
+                <Button icon="pi pi-pencil" className="p-button-rounded p-button-success mr-2" onClick={() => editEstado(rowData)} />
+                <Button icon="pi pi-trash" className="p-button-rounded p-button-warning mt-2" onClick={() => confirmDeleteEstado(rowData)} />
             </div>
         );
     }
@@ -270,22 +271,22 @@ const Crud = () => {
         </div>
     );
 
-    const productDialogFooter = (
+    const estadoDialogFooter = (
         <>
             <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
-            <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={saveProduct} />
+            <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={saveEstado} />
         </>
     );
-    const deleteProductDialogFooter = (
+    const deleteEstadoDialogFooter = (
         <>
-            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteProductDialog} />
-            <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteProduct} />
+            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteEstadoDialog} />
+            <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteEstado} />
         </>
     );
-    const deleteProductsDialogFooter = (
+    const deleteEstadosDialogFooter = (
         <>
-            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteProductsDialog} />
-            <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteSelectedProducts} />
+            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteEstadosDialog} />
+            <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteSelectedEstados} />
         </>
     );
 
@@ -296,7 +297,7 @@ const Crud = () => {
                     <Toast ref={toast} />
                     <Toolbar className="mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}></Toolbar>
 
-                    <DataTable ref={dt} value={products} selection={selectedProducts} onSelectionChange={(e) => setSelectedProducts(e.value)}
+                    <DataTable ref={dt} value={estados} selection={selectedEstados} onSelectionChange={(e) => setSelectedEstados(e.value)}
                         dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]} className="datatable-responsive"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
@@ -312,35 +313,35 @@ const Crud = () => {
                         <Column body={actionBodyTemplate}></Column>
                     </DataTable>
 
-                    <Dialog visible={productDialog} style={{ width: '450px' }} header="Product Details" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
-                        {product.image && <img src={`assets/demo/images/product/${product.image}`} alt={product.image} width="150" className="mt-0 mx-auto mb-5 block shadow-2" />}
+                    <Dialog visible={estadoDialog} style={{ width: '450px' }} header="Product Details" modal className="p-fluid" footer={estadoDialogFooter} onHide={hideDialog}>
+                        {estado.image && <img src={`assets/demo/images/product/${estado.image}`} alt={estado.image} width="150" className="mt-0 mx-auto mb-5 block shadow-2" />}
                         <div className="field">
                             <label htmlFor="name">Name</label>
-                            <InputText id="name" value={product.name} onChange={(e) => onInputChange(e, 'name')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.name })} />
-                            {submitted && !product.name && <small className="p-invalid">Name is required.</small>}
+                            <InputText id="name" value={estado.name} onChange={(e) => onInputChange(e, 'name')} required autoFocus className={classNames({ 'p-invalid': submitted && !estado.name })} />
+                            {submitted && !estado.name && <small className="p-invalid">Name is required.</small>}
                         </div>
                         <div className="field">
                             <label htmlFor="description">Description</label>
-                            <InputTextarea id="description" value={product.description} onChange={(e) => onInputChange(e, 'description')} required rows={3} cols={20} />
+                            <InputTextarea id="description" value={estado.description} onChange={(e) => onInputChange(e, 'description')} required rows={3} cols={20} />
                         </div>
 
                         <div className="field">
                             <label className="mb-3">Category</label>
                             <div className="formgrid grid">
                                 <div className="field-radiobutton col-6">
-                                    <RadioButton inputId="category1" name="category" value="Accessories" onChange={onCategoryChange} checked={product.category === 'Accessories'} />
+                                    <RadioButton inputId="category1" name="category" value="Accessories" onChange={onCategoryChange} checked={estado.category === 'Accessories'} />
                                     <label htmlFor="category1">Accessories</label>
                                 </div>
                                 <div className="field-radiobutton col-6">
-                                    <RadioButton inputId="category2" name="category" value="Clothing" onChange={onCategoryChange} checked={product.category === 'Clothing'} />
+                                    <RadioButton inputId="category2" name="category" value="Clothing" onChange={onCategoryChange} checked={estado.category === 'Clothing'} />
                                     <label htmlFor="category2">Clothing</label>
                                 </div>
                                 <div className="field-radiobutton col-6">
-                                    <RadioButton inputId="category3" name="category" value="Electronics" onChange={onCategoryChange} checked={product.category === 'Electronics'} />
+                                    <RadioButton inputId="category3" name="category" value="Electronics" onChange={onCategoryChange} checked={estado.category === 'Electronics'} />
                                     <label htmlFor="category3">Electronics</label>
                                 </div>
                                 <div className="field-radiobutton col-6">
-                                    <RadioButton inputId="category4" name="category" value="Fitness" onChange={onCategoryChange} checked={product.category === 'Fitness'} />
+                                    <RadioButton inputId="category4" name="category" value="Fitness" onChange={onCategoryChange} checked={estado.category === 'Fitness'} />
                                     <label htmlFor="category4">Fitness</label>
                                 </div>
                             </div>
@@ -349,26 +350,26 @@ const Crud = () => {
                         <div className="formgrid grid">
                             <div className="field col">
                                 <label htmlFor="price">Price</label>
-                                <InputNumber id="price" value={product.price} onValueChange={(e) => onInputNumberChange(e, 'price')} mode="currency" currency="USD" locale="en-US" />
+                                <InputNumber id="price" value={estado.price} onValueChange={(e) => onInputNumberChange(e, 'price')} mode="currency" currency="USD" locale="en-US" />
                             </div>
                             <div className="field col">
                                 <label htmlFor="quantity">Quantity</label>
-                                <InputNumber id="quantity" value={product.quantity} onValueChange={(e) => onInputNumberChange(e, 'quantity')} integeronly />
+                                <InputNumber id="quantity" value={estado.quantity} onValueChange={(e) => onInputNumberChange(e, 'quantity')} integeronly />
                             </div>
                         </div>
                     </Dialog>
 
-                    <Dialog visible={deleteProductDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteProductDialogFooter} onHide={hideDeleteProductDialog}>
+                    <Dialog visible={deleteEstadoDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteEstadosDialogFooter} onHide={hideDeleteEstadoDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                            {product && <span>Are you sure you want to delete <b>{product.name}</b>?</span>}
+                            {estado && <span>Are you sure you want to delete <b>{estado.name}</b>?</span>}
                         </div>
                     </Dialog>
 
-                    <Dialog visible={deleteProductsDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteProductsDialogFooter} onHide={hideDeleteProductsDialog}>
+                    <Dialog visible={deleteEstadosDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteEstadosDialogFooter} onHide={hideDeleteEstadosDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                            {product && <span>Are you sure you want to delete the selected products?</span>}
+                            {estado && <span>Are you sure you want to delete the selected estados?</span>}
                         </div>
                     </Dialog>
                 </div>
