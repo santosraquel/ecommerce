@@ -6,6 +6,7 @@ import com.dev.backend.service.EstadoService;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,29 +19,34 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController // notação para responder a requisições do tipo rest
 @RequestMapping("/api/estado") // definindo uma rota padrão para todos os endpoints
+// @CrossOrigin("http://localhost:3000/#")
 public class EstadoController {
 
     @Autowired
     private EstadoService estadoService;
 
     @PostMapping("/")
+    @CrossOrigin("http://localhost:3000")
     public Estado inserir(@RequestBody Estado estado) {
         return estadoService.inserir(estado);
     }
 
     @PutMapping("/")
+    @CrossOrigin("http://localhost:3000")
     public Estado alterar(@RequestBody Estado estado) {
         return estadoService.alterar(estado);
     }
 
     // EXCLUIR
     @DeleteMapping("/{id}")
+    @CrossOrigin("http://localhost:3000")
     public ResponseEntity<Void> excluir(@PathVariable("id") Long id) {
         estadoService.excluir(id);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/")
+    @CrossOrigin("http://localhost:3000")
     public List<Estado> buscarTodos() {
         return estadoService.buscarTodos();
     }

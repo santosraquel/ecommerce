@@ -9,7 +9,6 @@ import { AppMenu } from './AppMenu';
 import { AppConfig } from './AppConfig';
 
 import Dashboard from './components/Dashboard';
-import Estado from './components/Estado';
 import ButtonDemo from './components/ButtonDemo';
 import ChartDemo from './components/ChartDemo';
 import Documentation from './components/Documentation';
@@ -36,6 +35,8 @@ import TimelineDemo from './pages/TimelineDemo';
 
 import PrimeReact from 'primereact/api';
 import { Tooltip } from 'primereact/tooltip';
+
+import Estado from './pages/cadastros/Estado';
 
 import 'primereact/resources/primereact.css';
 import 'primeicons/primeicons.css';

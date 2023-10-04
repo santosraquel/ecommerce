@@ -7,12 +7,11 @@ import { Button } from 'primereact/button';
 import { Toolbar } from 'primereact/toolbar';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
-import { EstadoService } from '../service/EstadoService';
 import axios from 'axios';
+import { EstadoService } from '../../service/cadastros/EstadoService';
 
-const Estados = () => {
-    let emptyEstado = {
-        id: null,
+const Estado = () => {
+    let novoEstado = {
         name: '',
         sigla: '',
     };
@@ -20,20 +19,25 @@ const Estados = () => {
     const [estados, setEstados] = useState(null);
     const [estadoDialog, setEstadoDialog] = useState(false);
     const [deleteEstadoDialog, setDeleteEstadoDialog] = useState(false);
-    const [estado, setEstado] = useState(emptyEstado);
-    const [selectedEstados, setSelectedEstados] = useState(null);
+    const [estado, setEstado] = useState(novoEstado);
     const [submitted, setSubmitted] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
     const dt = useRef(null);
+    const estadoService = new EstadoService();
 
+    // método para preencher a tabela
     useEffect(() => {
-        const estadoService = new EstadoService();
-        estadoService.getEstados().then(data => setEstados(data));
-    }, []);
+        if(estados == null){
+            estadoService.estados().then(res => {
+                console.log(res.data);
+                setEstados(res.data);
+            });
+        }
+    }, [estados]);
 
     const openNew = () => {
-        setEstado(emptyEstado);
+        setEstado(novoEstado);
         setSubmitted(false);
         setEstadoDialog(true);
     }
@@ -50,28 +54,23 @@ const Estados = () => {
     const saveEstado = () => {
         setSubmitted(true);
 
-        if (estado.name.trim()) {
-            let _estados = [...estados];
+        if (estado.nome.trim()) {
             let _estado = { ...estado };
             if (estado.id) {
-                const index = findIndexById(estado.id);
-
-                _estados[index] = _estado;
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Estado atualizado', life: 3000 });
+                estadoService.alterar(_estado).then(data => {
+                    toast.current.show({ severity: 'success', summary: 'Successo', detail: 'Estado atualizado com sucesso.', life: 3000 });
+                    setEstados(null);
+                });
             }
             else {
-                _estado.id = createId();
-                _estado.image = 'estado-placeholder.svg';
-                // _estados.push(_estado);
-                axios.post("http://localhost:8080/api/estado/", _estados).then(result =>{
-                    console.log(result);
+                estadoService.inserir(_estado).then(data => {
+                    toast.current.show({ severity: 'success', summary: 'Successo', detail: 'Estado salvo com sucesso.', life: 3000 });
+                    setEstados(null);
                 });
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Estado salvo com sucesso.', life: 3000 });
             }
 
-            // setEstados(_estados);
             setEstadoDialog(false);
-            setEstado(emptyEstado);
+            setEstado(novoEstado);
         }
     }
 
@@ -86,32 +85,12 @@ const Estados = () => {
     }
 
     const deleteEstado = () => {
-        let _estados = estados.filter(val => val.id !== estado.id);
-        setEstados(_estados);
-        setDeleteEstadoDialog(false);
-        setEstado(emptyEstado);
-        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Estado excluido', life: 3000 });
-    }
-
-    const findIndexById = (id) => {
-        let index = -1;
-        for (let i = 0; i < estados.length; i++) {
-            if (estados[i].id === id) {
-                index = i;
-                break;
-            }
-        }
-
-        return index;
-    }
-
-    const createId = () => {
-        let id = '';
-        let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        for (let i = 0; i < 5; i++) {
-            id += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        return id;
+        estadoService.excluir(estado.id).then(data => {
+            toast.current.show({ severity: 'success', summary: 'Successo', detail: 'Estado excluido com sucesso', life: 3000 });
+            setEstados(null);
+            setDeleteEstadoDialog(false);
+        });
+       
     }
 
     const onInputChange = (e, name) => {
@@ -132,20 +111,20 @@ const Estados = () => {
         )
     }
 
-    const codeBodyTemplate = (rowData) => {
+    const idBodyTemplate = (rowData) => {
         return (
             <>
                 <span className="p-column-title">ID</span>
-                {rowData.code}
+                {rowData.id}
             </>
         );
     }
 
-    const nameBodyTemplate = (rowData) => {
+    const nomeBodyTemplate = (rowData) => {
         return (
             <>
                 <span className="p-column-title">Nome</span>
-                {rowData.name}
+                {rowData.nome}
             </>
         );
     }
@@ -198,22 +177,22 @@ const Estados = () => {
                     <Toast ref={toast} />
                     <Toolbar className="mb-4" left={leftToolbarTemplate}></Toolbar>
 
-                    <DataTable ref={dt} value={estados} selection={selectedEstados} onSelectionChange={(e) => setSelectedEstados(e.value)}
+                    <DataTable ref={dt} value={estados}
                         dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]} className="datatable-responsive"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} estados"
                         globalFilter={globalFilter} emptyMessage="No estados found." header={header} responsiveLayout="scroll">
-                        <Column field="code" header="ID" sortable body={codeBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
-                        <Column field="name" header="Nome" sortable body={nameBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
+                        <Column field="code" header="ID" sortable body={idBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
+                        <Column field="name" header="Nome" sortable body={nomeBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         <Column field="sigla" header="Sigla" sortable body={siglaBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         <Column header="Ações" body={actionBodyTemplate}></Column>
                     </DataTable>
 
                     <Dialog visible={estadoDialog} style={{ width: '450px' }} header="Novo Estado" modal className="p-fluid" footer={estadoDialogFooter} onHide={hideDialog}>
                         <div className="field">
-                            <label htmlFor="name">Nome</label>
-                            <InputText id="name" value={estado.name} onChange={(e) => onInputChange(e, 'name')} required autoFocus className={classNames({ 'p-invalid': submitted && !estado.name })} />
-                            {submitted && !estado.name && <small className="p-invalid">Campo obrigatório.</small>}
+                            <label htmlFor="nome">Nome</label>
+                            <InputText id="nome" value={estado.nome} onChange={(e) => onInputChange(e, 'nome')} required autoFocus className={classNames({ 'p-invalid': submitted && !estado.nome })} />
+                            {submitted && !estado.nome && <small className="p-invalid">Campo obrigatório.</small>}
                         </div>
 
                         <div className="field">
@@ -227,7 +206,7 @@ const Estados = () => {
                     <Dialog visible={deleteEstadoDialog} style={{ width: '450px' }} header="Excluir Estado" modal footer={deleteEstadoDialogFooter} onHide={hideDeleteEstadoDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                            {estado && <span>Tem certeza que deseja excluir o Estado <b>{estado.name}</b>?</span>}
+                            {estado && <span>Tem certeza que deseja excluir o Estado <b>{estado.nome}</b>?</span>}
                         </div>
                     </Dialog>
                 </div>
@@ -240,4 +219,4 @@ const comparisonFn = function (prevProps, nextProps) {
     return prevProps.location.pathname === nextProps.location.pathname;
 };
 
-export default React.memo(Estados, comparisonFn);
+export default React.memo(Estado, comparisonFn);
