@@ -30,7 +30,6 @@ const Estado = () => {
     useEffect(() => {
         if(estados == null){
             estadoService.estados().then(res => {
-                console.log(res.data);
                 setEstados(res.data);
             });
         }
