@@ -41,6 +41,7 @@ import Cidade from './pages/cadastros/Cidade';
 import Marca from './pages/cadastros/Marca';
 import Categoria from './pages/cadastros/Categoria';
 import Fornecedor from './pages/cadastros/Fornecedor';
+import Permissao from './pages/cadastros/Permissao';
 
 import 'primereact/resources/primereact.css';
 import 'primeicons/primeicons.css';
@@ -176,6 +177,7 @@ const App = () => {
                 {label: 'Marcas', icon: 'pi pi-fw pi-id-card', to: '/marcas'},
                 {label: 'Categorias', icon: 'pi pi-fw pi-id-card', to: '/categorias'},
                 {label: 'Fornecedores', icon: 'pi pi-fw pi-id-card', to: '/fornecedores'},
+                {label: 'Permissões', icon: 'pi pi-fw pi-id-card', to: '/permissoes'},
             ]
         },
         {
@@ -318,6 +320,7 @@ const App = () => {
                     <Route path="/marcas" component={Marca} />
                     <Route path="/categorias" component={Categoria} />
                     <Route path="/fornecedores" component={Fornecedor} />
+                    <Route path="/permissoes" component={Permissao} />
                     <Route path="/formlayout" component={FormLayoutDemo} />
                     <Route path="/input" component={InputDemo} />
                     <Route path="/floatlabel" component={FloatLabelDemo} />
