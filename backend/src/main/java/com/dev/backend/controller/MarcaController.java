@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,18 +27,21 @@ public class MarcaController {
 
     // INSERIR
     @PostMapping("/")
+    @CrossOrigin("http://localhost:3000")
     public Marca inserir(@RequestBody Marca marca) {
         return marcaService.inserir(marca);
     }
 
     // ALTERAR
     @PutMapping("/")
+    @CrossOrigin("http://localhost:3000")
     public Marca alterar(@RequestBody Marca marca) {
         return marcaService.alterar(marca);
     }
 
     // EXCLUIR
     @DeleteMapping("/{id}")
+    @CrossOrigin("http://localhost:3000")
     public ResponseEntity<Void> excluir(@PathParam("id") Long id) {
         marcaService.excluir(id);
         return ResponseEntity.ok().build();
@@ -45,6 +49,7 @@ public class MarcaController {
 
     // BUSCAR TODOS
     @GetMapping("/")
+    @CrossOrigin("http://localhost:3000")
     public List<Marca> buscaTodos() {
         return marcaService.buscarTodos();
     }
