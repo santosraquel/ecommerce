@@ -29,7 +29,7 @@ const Estado = () => {
     // método para preencher a tabela
     useEffect(() => {
         if(estados == null){
-            estadoService.estados().then(res => {
+            estadoService.listarTodos().then(res => {
                 setEstados(res.data);
             });
         }
@@ -187,7 +187,7 @@ const Estado = () => {
                         <Column header="Ações" body={actionBodyTemplate}></Column>
                     </DataTable>
 
-                    <Dialog visible={estadoDialog} style={{ width: '450px' }} header="Novo Estado" modal className="p-fluid" footer={estadoDialogFooter} onHide={hideDialog}>
+                    <Dialog visible={estadoDialog} style={{ width: '450px' }} header="Cadastrar/Editar Estado" modal className="p-fluid" footer={estadoDialogFooter} onHide={hideDialog}>
                         <div className="field">
                             <label htmlFor="nome">Nome</label>
                             <InputText id="nome" value={estado.nome} onChange={(e) => onInputChange(e, 'nome')} required autoFocus className={classNames({ 'p-invalid': submitted && !estado.nome })} />

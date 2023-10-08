@@ -4,7 +4,7 @@ export class EstadoService {
 
     url = process.env.REACT_APP_URL_API;
 
-    estados(){
+    listarTodos(){
         return axios.get(this.url+'/estado/');
     }
 

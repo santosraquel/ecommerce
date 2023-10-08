@@ -37,6 +37,7 @@ import PrimeReact from 'primereact/api';
 import { Tooltip } from 'primereact/tooltip';
 
 import Estado from './pages/cadastros/Estado';
+import Cidade from './pages/cadastros/Cidade';
 
 import 'primereact/resources/primereact.css';
 import 'primeicons/primeicons.css';
@@ -168,6 +169,7 @@ const App = () => {
             label: 'Cadastros',
             items: [
                 {label: 'Estados', icon: 'pi pi-fw pi-id-card', to: '/estados'},
+                {label: 'Cidades', icon: 'pi pi-fw pi-id-card', to: '/cidades'},
             ]
         },
         {
@@ -306,6 +308,7 @@ const App = () => {
                 <div className="layout-main">
                     <Route path="/" exact render={() => <Dashboard colorMode={layoutColorMode} location={location} />} />
                     <Route path="/estados" component={Estado} />
+                    <Route path="/cidades" component={Cidade} />
                     <Route path="/formlayout" component={FormLayoutDemo} />
                     <Route path="/input" component={InputDemo} />
                     <Route path="/floatlabel" component={FloatLabelDemo} />
