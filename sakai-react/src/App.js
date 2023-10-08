@@ -39,6 +39,7 @@ import { Tooltip } from 'primereact/tooltip';
 import Estado from './pages/cadastros/Estado';
 import Cidade from './pages/cadastros/Cidade';
 import Marca from './pages/cadastros/Marca';
+import Categoria from './pages/cadastros/Categoria';
 
 import 'primereact/resources/primereact.css';
 import 'primeicons/primeicons.css';
@@ -172,6 +173,7 @@ const App = () => {
                 {label: 'Estados', icon: 'pi pi-fw pi-id-card', to: '/estados'},
                 {label: 'Cidades', icon: 'pi pi-fw pi-id-card', to: '/cidades'},
                 {label: 'Marcas', icon: 'pi pi-fw pi-id-card', to: '/marcas'},
+                {label: 'Categorias', icon: 'pi pi-fw pi-id-card', to: '/categorias'},
             ]
         },
         {
@@ -312,6 +314,7 @@ const App = () => {
                     <Route path="/estados" component={Estado} />
                     <Route path="/cidades" component={Cidade} />
                     <Route path="/marcas" component={Marca} />
+                    <Route path="/categorias" component={Categoria} />
                     <Route path="/formlayout" component={FormLayoutDemo} />
                     <Route path="/input" component={InputDemo} />
                     <Route path="/floatlabel" component={FloatLabelDemo} />
