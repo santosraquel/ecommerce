@@ -43,6 +43,7 @@ import Categoria from './pages/cadastros/Categoria';
 import Fornecedor from './pages/cadastros/Fornecedor';
 import Permissao from './pages/cadastros/Permissao';
 import Pessoa from './pages/cadastros/Pessoa';
+import Produto from './pages/cadastros/Produto';
 
 import 'primereact/resources/primereact.css';
 import 'primeicons/primeicons.css';
@@ -178,6 +179,7 @@ const App = () => {
                 {label: 'Marcas', icon: 'pi pi-fw pi-id-card', to: '/marcas'},
                 {label: 'Categorias', icon: 'pi pi-fw pi-id-card', to: '/categorias'},
                 {label: 'Fornecedores', icon: 'pi pi-fw pi-id-card', to: '/fornecedores'},
+                {label: 'Produtos', icon: 'pi pi-fw pi-id-card', to: '/produtos'},
                 {label: 'Permissões', icon: 'pi pi-fw pi-id-card', to: '/permissoes'},
                 {label: 'Pessoas', icon: 'pi pi-fw pi-id-card', to: '/pessoas'},
             ]
@@ -322,6 +324,7 @@ const App = () => {
                     <Route path="/marcas" component={Marca} />
                     <Route path="/categorias" component={Categoria} />
                     <Route path="/fornecedores" component={Fornecedor} />
+                    <Route path="/produtos" component={Produto} />
                     <Route path="/pessoas" component={Pessoa} />
                     <Route path="/permissoes" component={Permissao} />
                     <Route path="/formlayout" component={FormLayoutDemo} />
