@@ -1,22 +1,9 @@
 import axios from 'axios';
+import { ServiceBase } from './ServiceBase';
 
-export class EstadoService {
+export class EstadoService extends ServiceBase{
 
-    url = process.env.REACT_APP_URL_API;
-
-    listarTodos(){
-        return axios.get(this.url+'/estado/');
-    }
-
-    inserir(estado){
-        return axios.post(this.url+'/estado/', estado);
-    }
-
-    alterar(estado){
-        return axios.put(this.url+'/estado/', estado);
-    }
-
-    excluir(id){
-        return axios.delete(this.url+'/estado/'+id);
+    constructor(){
+        super("estado");
     }
 }
