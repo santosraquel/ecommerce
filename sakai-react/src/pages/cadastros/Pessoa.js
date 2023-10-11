@@ -9,6 +9,7 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
 import { MultiSelect } from 'primereact/multiselect';
+import { InputMask } from 'primereact/inputmask';
 import axios from 'axios';
 import { PessoaService } from '../../service/cadastros/PessoaService';
 import { CidadeService } from '../../service/cadastros/CidadeService';
@@ -219,7 +220,7 @@ const Pessoa = () => {
 
                         <div className="field">
                             <label htmlFor="cpf">CPF</label>
-                            <InputText id="cpf" value={pessoa.cpf} onChange={(e) => onInputChange(e, 'cpf')} required autoFocus className={classNames({ 'p-invalid': submitted && !pessoa.cpf })} />
+                            <InputMask mask="999.999.999-99" id="cpf" value={pessoa.cpf} onChange={(e) => onInputChange(e, 'cpf')} required autoFocus className={classNames({ 'p-invalid': submitted && !pessoa.cpf })} />
                             {submitted && !pessoa.cpf && <small className="p-invalid">Campo obrigatório.</small>}
                         </div>
 
@@ -237,7 +238,7 @@ const Pessoa = () => {
 
                         <div className="field">
                             <label htmlFor="cep">CEP</label>
-                            <InputText id="cep" value={pessoa.cep} onChange={(e) => onInputChange(e, 'cep')} required autoFocus className={classNames({ 'p-invalid': submitted && !pessoa.cep })} />
+                            <InputMask mask="99999-999" value={pessoa.cep} onChange={(e) => onInputChange(e, 'cep')} required autoFocus className={classNames({ 'p-invalid': submitted && !pessoa.cep })} />
                             {submitted && !pessoa.cep && <small className="p-invalid">Campo obrigatório.</small>}
                         </div>
 

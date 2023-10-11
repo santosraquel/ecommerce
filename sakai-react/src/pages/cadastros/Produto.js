@@ -9,6 +9,7 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
 import { MultiSelect } from 'primereact/multiselect';
+import { InputNumber } from 'primereact/inputnumber';
 import axios from 'axios';
 import { MarcaService } from '../../service/cadastros/MarcaService';
 import { CategoriaService } from '../../service/cadastros/CategoriaService';
@@ -247,13 +248,13 @@ const Produto = () => {
 
                         <div className="field">
                             <label htmlFor="valorCusto">Valor Custo</label>
-                            <InputText id="valorCusto" value={produto.valorCusto} onChange={(e) => onInputChange(e, 'valorCusto')} required autoFocus className={classNames({ 'p-invalid': submitted && !produto.valorCusto })} />
+                            <InputNumber mode="currency" currency="BRL" locale="pt-BR" id="valorCusto" value={produto.valorCusto} onChange={(e) => onInputChange(e, 'valorCusto')} required autoFocus className={classNames({ 'p-invalid': submitted && !produto.valorCusto })} />
                             {submitted && !produto.valorCusto && <small className="p-invalid">Campo obrigatório.</small>}
                         </div>
 
                         <div className="field">
                             <label htmlFor="valorVenda">Valor Venda</label>
-                            <InputText id="valorVenda" value={produto.valorVenda} onChange={(e) => onInputChange(e, 'valorVenda')} required autoFocus className={classNames({ 'p-invalid': submitted && !produto.valorVenda })} />
+                            <InputNumber mode="currency" currency="BRL" locale="pt-BR" id="valorVenda" value={produto.valorVenda} onChange={(e) => onInputChange(e, 'valorVenda')} required autoFocus className={classNames({ 'p-invalid': submitted && !produto.valorVenda })} />
                             {submitted && !produto.valorVenda && <small className="p-invalid">Campo obrigatório.</small>}
                         </div>
 
