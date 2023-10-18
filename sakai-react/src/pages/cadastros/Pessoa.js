@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
+import { useFormik } from 'formik';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Toast } from 'primereact/toast';
@@ -23,7 +24,7 @@ const Pessoa = () => {
         email: '',
         endereco: '',
         cep: '',
-        permissaoPessoas: ''
+        permissaoPessoas: []
     };
 
     const [pessoas, setPessoas] = useState(null);
@@ -40,14 +41,46 @@ const Pessoa = () => {
     const cidadeService = new CidadeService();
     const permissaoService = new PermissaoService();
 
-    useEffect(() => {
-            cidadeService.listarTodos().then(res => {
-                setCidades(res.data);
-            });
+    const formik = useFormik({
+        enableReinitialize: true,
+        initialValues: pessoa,
+        validate: (data) => {
+            let errors = {};
 
-            permissaoService.listarTodos().then(res => {
-                setPermissoes(res.data);
+            if (!data.nome) {
+                errors.nome = 'Nome é obrigatório';
+            }
+
+            if (!data.email) {
+                errors.email = 'Email é obrigatório';
+            }
+            else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(data.email)) {
+                errors.email = 'E-mail é inválido. Exemplo: jose@gmail.com';
+            }
+
+            return errors;
+        },
+        onSubmit: (data) => {
+            setPessoa(data);
+            savePessoa();
+            formik.resetForm();
+        }
+    });
+
+
+    useEffect(() => {
+        cidadeService.listarTodos().then(res => {
+            setCidades(res.data)
+
+        });
+
+        permissaoService.listarTodos().then(res => {
+            let permissoesTemporarias = [];
+            res.data.forEach(element => {
+                permissoesTemporarias.push({ permissao: element });
             });
+            setPermissoes(permissoesTemporarias);
+        });
     }, []);
 
     // método para preencher a tabela
@@ -78,20 +111,20 @@ const Pessoa = () => {
         setSubmitted(true);
 
         if (pessoa.nome.trim()) {
-            let _pessoa = { ...pessoa };
+            let _pessoa = formik.values;
             if (pessoa.id) {
                 pessoaService.alterar(_pessoa).then(data => {
-                    toast.current.show({ severity: 'success', summary: 'Successo', detail: 'Pessoa atualizada com sucesso.', life: 3000 });
+                    toast.current.show({ severity: 'success', summary: 'Sucesso', detail: 'Pessoa alterada com Sucesso', life: 3000 });
                     setPessoas(null);
                 });
             }
             else {
                 pessoaService.inserir(_pessoa).then(data => {
-                    toast.current.show({ severity: 'success', summary: 'Successo', detail: 'Pessoa salva com sucesso.', life: 3000 });
+                    toast.current.show({ severity: 'success', summary: 'Sucesso', detail: 'Pessoa salva com Sucesso', life: 3000 });
                     setPessoas(null);
                 });
-            }
 
+            }
             setPessoaDialog(false);
             setPessoa(novaPessoa);
         }
@@ -123,6 +156,11 @@ const Pessoa = () => {
 
         setPessoa(_pessoa);
     }
+
+    const isFormFieldValid = (name) => !!(formik.touched[name] && formik.errors[name]);
+    const getFormErrorMessage = (name) => {
+        return isFormFieldValid(name) && <small className="p-error">{formik.errors[name]}</small>;
+    };
 
     const leftToolbarTemplate = () => {
         return (
@@ -183,7 +221,7 @@ const Pessoa = () => {
     const pessoaDialogFooter = (
         <>
             <Button label="Cancelar" icon="pi pi-times" className="p-button-danger" onClick={hideDialog} />
-            <Button label="Salvar" icon="pi pi-check" className="p-button-success" onClick={savePessoa} />
+            <Button type="submit" form="formularioPessoa" label="Salvar" icon="pi pi-check" className="p-button-success" />
         </>
     );
     const deletePessoaDialogFooter = (
@@ -212,48 +250,45 @@ const Pessoa = () => {
                     </DataTable>
 
                     <Dialog visible={pessoaDialog} style={{ width: '450px' }} header="Cadastrar/Editar Pessoa" modal className="p-fluid" footer={pessoaDialogFooter} onHide={hideDialog}>
-                        <div className="field">
-                            <label htmlFor="nome">Nome</label>
-                            <InputText id="nome" value={pessoa.nome} onChange={(e) => onInputChange(e, 'nome')} required autoFocus className={classNames({ 'p-invalid': submitted && !pessoa.nome })} />
-                            {submitted && !pessoa.nome && <small className="p-invalid">Campo obrigatório.</small>}
-                        </div>
+                        <form id="formularioPessoa" onSubmit={formik.handleSubmit}>
+                            <div className="field">
+                                <label htmlFor="nome">Nome</label>
+                                <InputText id="nome" value={formik.values.nome} onChange={formik.handleChange} autoFocus className={classNames({ 'p-invalid': isFormFieldValid('nome') })} />
+                                {getFormErrorMessage('nome')}
+                            </div>
 
-                        <div className="field">
-                            <label htmlFor="cpf">CPF</label>
-                            <InputMask mask="999.999.999-99" id="cpf" value={pessoa.cpf} onChange={(e) => onInputChange(e, 'cpf')} required autoFocus className={classNames({ 'p-invalid': submitted && !pessoa.cpf })} />
-                            {submitted && !pessoa.cpf && <small className="p-invalid">Campo obrigatório.</small>}
-                        </div>
+                            <div className="field">
+                                <label htmlFor="cpf">CPF</label>
+                                <InputMask mask="999.999.999-99" id="cpf" value={formik.values.cpf} onChange={formik.handleChange} autoFocus />
+                            </div>
 
-                        <div className="field">
-                            <label htmlFor="email">E-mail</label>
-                            <InputText id="email" value={pessoa.email} onChange={(e) => onInputChange(e, 'email')} required autoFocus className={classNames({ 'p-invalid': submitted && !pessoa.email })} />
-                            {submitted && !pessoa.email && <small className="p-invalid">Campo obrigatório.</small>}
-                        </div>
+                            <div className="field">
+                                <label htmlFor="email">E-mail</label>
+                                <InputText id="email" value={formik.values.email} onChange={formik.handleChange} autoFocus className={classNames({ 'p-invalid': isFormFieldValid('email') })} />
+                                {getFormErrorMessage('email')}
+                            </div>
 
-                        <div className="field">
-                            <label htmlFor="cidade">Cidade</label>
-                            <Dropdown value={pessoa.cidade} onChange={(e) => onInputChange(e, 'cidade')} options={cidades} optionLabel="nome" 
-    placeholder="Selecione uma Cidade" filter/>
-                        </div>
+                            <div className="field">
+                                <label htmlFor="cidade">Cidade</label>
+                                <Dropdown id="cidade" name="cidade" value={formik.values.cidade} onChange={formik.handleChange} options={cidades} optionLabel="nome" 
+        placeholder="Selecione uma Cidade" filter/>
+                            </div>
 
-                        <div className="field">
-                            <label htmlFor="cep">CEP</label>
-                            <InputMask mask="99999-999" value={pessoa.cep} onChange={(e) => onInputChange(e, 'cep')} required autoFocus className={classNames({ 'p-invalid': submitted && !pessoa.cep })} />
-                            {submitted && !pessoa.cep && <small className="p-invalid">Campo obrigatório.</small>}
-                        </div>
+                            <div className="field">
+                                <label htmlFor="cep">CEP</label>
+                                <InputMask mask="99999-999" id="cep" name="cep" value={formik.values.cep} onChange={formik.handleChange} autoFocus />
+                            </div>
 
-                        <div className="field">
-                            <label htmlFor="endereco">Endereço</label>
-                            <InputText id="endereco" value={pessoa.endereco} onChange={(e) => onInputChange(e, 'endereco')} required autoFocus className={classNames({ 'p-invalid': submitted && !pessoa.endereco })} />
-                            {submitted && !pessoa.endereco && <small className="p-invalid">Campo obrigatório.</small>}
-                        </div>
+                            <div className="field">
+                                <label htmlFor="endereco">Endereço</label>
+                                <InputText id="endereco" value={formik.values.endereco} onChange={formik.handleChange} autoFocus />
+                            </div>
 
-                        <div className="field">
-                            <label htmlFor="permissaoPessoas">Permissões</label>
-                            <MultiSelect value={pessoa.permissaoPessoas} onChange={(e) => onInputChange(e, 'permissaoPessoas')} options={permissoes} optionLabel="nome" display="chip"
-    placeholder="Selecione as permissões"/>
-                        </div>
-                      
+                            <div className="field">
+                                <label htmlFor="permissaoPessoas">Permissões</label>
+                                <MultiSelect dataKey="permissao.id" id="permissaoPessoas" value={formik.values.permissaoPessoas} options={permissoes} onChange={formik.handleChange} optionLabel="permissao.nome" placeholder="Selecione as Permissões" />
+                            </div>
+                      </form>
                     </Dialog>
 
                     <Dialog visible={deletePessoaDialog} style={{ width: '450px' }} header="Excluir Pessoa" modal footer={deletePessoaDialogFooter} onHide={hideDeletePessoaDialog}>
