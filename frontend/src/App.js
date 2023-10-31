@@ -44,6 +44,7 @@ import Fornecedor from './pages/cadastros/Fornecedor';
 import Permissao from './pages/cadastros/Permissao';
 import Pessoa from './pages/cadastros/Pessoa';
 import Produto from './pages/cadastros/Produto';
+import ProdutoImagens from './pages/cadastros/ProdutoImagens';
 
 import 'primereact/resources/primereact.css';
 import 'primeicons/primeicons.css';
@@ -327,6 +328,7 @@ const App = () => {
                     <Route path="/produtos" component={Produto} />
                     <Route path="/pessoas" component={Pessoa} />
                     <Route path="/permissoes" component={Permissao} />
+                    <Route path="/produtoImagens/:id" component={ProdutoImagens} />
                     <Route path="/formlayout" component={FormLayoutDemo} />
                     <Route path="/input" component={InputDemo} />
                     <Route path="/floatlabel" component={FloatLabelDemo} />
