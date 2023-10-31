@@ -51,7 +51,7 @@ const ProdutoImagens = () => {
             <div className="col-12 md:col-4">
                 <div className="product-grid-item card">
                     <div className="product-grid-item-content">
-                        <Image src={`images/product/${data.imagem}`} onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={data.name} />
+                        <img src={`images/product/${data.imagem}`} onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={data.name} />
                         <Button icon="pi pi-times" className="p-button-danger" label="Remover" onClick={() => confirmDeleteImagem(data)}></Button>
                     </div>
                 </div>
@@ -75,8 +75,8 @@ const ProdutoImagens = () => {
 
     const deleteImagemDialogFooter = (
         <>
-            <Button label="Não" icon="pi pi-times" className="p-button-text" onClick={hideDeleteImagemDialog} />
-            <Button label="Sim" icon="pi pi-check" className="p-button-text" onClick={deleteImagem} />
+            <Button label="Não"  icon="pi pi-times" className="p-button-danger" onClick={hideDeleteImagemDialog} />
+            <Button label="Sim" icon="pi pi-check" className="p-button-success" onClick={deleteImagem} />
         </>
     );
 
@@ -91,10 +91,10 @@ const ProdutoImagens = () => {
                     itemTemplate={renderGridItem} />
             </div>
 
-            <Dialog visible={ImagemDeleteDialog} style={{ width: '450px' }} header="Confirmação" modal footer={deleteImagemDialogFooter} onHide={hideDeleteImagemDialog}>
+            <Dialog visible={ImagemDeleteDialog} style={{ width: '450px' }} header="Excluir Imagem" modal footer={deleteImagemDialogFooter} onHide={hideDeleteImagemDialog}>
                 <div className="flex align-items-center justify-content-center">
                     <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                    {imagem && <span>Deseja Excluir?</span>}
+                    {imagem && <span>Tem certeza que deseja excluir esta imagem?</span>}
                 </div>
             </Dialog>
         </div>
