@@ -10,6 +10,10 @@ export class ServiceBase {
         return axios.get(this.url);
     }
 
+    buscarId(id){
+        return axios.get(this.url+id);
+    }
+
     inserir(cidade){
         return axios.post(this.url, cidade);
     }

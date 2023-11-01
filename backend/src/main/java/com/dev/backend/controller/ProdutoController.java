@@ -51,4 +51,11 @@ public class ProdutoController {
     public List<Produto> bucarTodos() {
         return produtoService.buscarTodos();
     }
+
+    // BUSCAR POR ID
+    @GetMapping("/{id}")
+    @CrossOrigin("http://localhost:3000")
+    public Produto bucarPorId(@PathVariable Long id) {
+        return produtoService.buscarPorId(id);
+    }
 }

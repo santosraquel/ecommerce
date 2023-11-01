@@ -4,9 +4,9 @@ import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { useParams } from 'react-router-dom';
-import { Image } from 'primereact/image';
 import { FileUpload } from 'primereact/fileupload';
 import { DataView } from 'primereact/dataview';
+import { ProdutoService } from '../../service/cadastros/ProdutoService';
 
 const ProdutoImagens = () => {
     let novaImagem = {
@@ -19,13 +19,16 @@ const ProdutoImagens = () => {
     const [imagens, setImagens] = useState(null);
     const [ImagemDeleteDialog, setImagemDeleteDialog] = useState(false);
     const [imagem, setImagem] = useState(novaImagem);
+    const [produto, setProduto] = useState({});
     const toast = useRef(null);
     const dt = useRef(null);
+    const produtoService = new ProdutoService();
 
     useEffect(() => {
-        console.log(parametros);
+        produtoService.buscarId(parametros.id).then(produto => {
+            setProduto(produto.data);
+        });
         setImagens([{}]);
-        //setObjetos([{},{}])
     }, []);
 
     const hideDeleteImagemDialog = () => {
@@ -66,7 +69,7 @@ const ProdutoImagens = () => {
                     <FileUpload chooseLabel="Adicionar Imagem" mode="basic" accept="image/*" maxFileSize={1000000} />
                 </div>
                 <div className="col-6" style={{ textAlign: 'right' }}>
-                    <h4>Descrição do Produto</h4>
+                    <h4>{produto.descricaoCurta}</h4>
                 </div>
 
             </div>
