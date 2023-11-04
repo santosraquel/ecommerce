@@ -27,11 +27,19 @@ const ProdutoImagens = () => {
     const produtoImagensService = new ProdutoImagensService();
 
     useEffect(() => {
-        produtoService.buscarId(parametros.id).then(produto => {
-            setProduto(produto.data);
-        });
-        setImagens([{}]);
-    }, []);
+        if(imagens == null){
+            produtoService.buscarId(parametros.id).then(result => {
+                setProduto(result.data);
+                buscarPorProduto(result.data.id);
+            });
+        }
+    }, [imagens]);
+
+    const buscarPorProduto = (idProduto) => {
+        produtoImagensService.buscarPorProduto(idProduto).then(result => {
+            setImagens(result.data);
+        })
+    }
 
     const hideDeleteImagemDialog = () => {
         setImagemDeleteDialog(false);
@@ -43,18 +51,17 @@ const ProdutoImagens = () => {
     }
 
     const deleteImagem = () => {
-
-        // produtoImagensService.excluir(imagem.id).then(data => {
-        //      toast.current.show({ severity: 'success', summary: 'Sucesso', detail: 'Removido', life: 3000 });
-        //      setObjetos(null);
-        //      setObjetoDeleteDialog(false);    
-        //  }); 
+        produtoImagensService.excluir(imagem.id).then(data => {
+             toast.current.show({ severity: 'success', summary: 'Sucesso', detail: 'Imagem excluida com sucesso', life: 3000 });
+             setImagens(null);
+             setImagemDeleteDialog(false);    
+         }); 
     }
 
     const uploadImagens = (event) => {
         produtoImagensService.uploadImagens({ file: event.files[0], idProduto: produto.id }).then(data => {
             toast.current.show({ severity: 'success', summary: 'Sucesso', detail: 'Imagem inserida', life: 3000 });
-            // setObjetos(null);
+            setImagens(null);
         });
         event.options.clear();
     }
@@ -64,7 +71,7 @@ const ProdutoImagens = () => {
             <div className="col-12 md:col-4">
                 <div className="product-grid-item card">
                     <div className="product-grid-item-content">
-                        <img src={`images/product/${data.imagem}`} onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={data.name} />
+                        <img src={'data:image;base64, '+data.arquivo} onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={data.name} />
                         <Button icon="pi pi-times" className="p-button-danger" label="Remover" onClick={() => confirmDeleteImagem(data)}></Button>
                     </div>
                 </div>

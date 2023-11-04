@@ -18,4 +18,8 @@ export class ProdutoImagensService extends ServiceBase {
         }
         return axios.post(this.url, formData, config);
     }
+
+    buscarPorProduto(idProduto){
+        return axios.get(this.url+"produto/"+idProduto);
+    }
 }
