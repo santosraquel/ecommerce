@@ -1,12 +1,15 @@
 package com.dev.backend.service;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -63,5 +66,18 @@ public class ProdutoImagensService {
     // BUSCAR TODOS
     public List<ProdutoImagens> buscarTodos() {
         return produtoImagensRepository.findAll();
+    }
+
+    // BUSCAR IMAGENS DE DETERMINADO PRODUTO
+    public List<ProdutoImagens> buscarPorProduto(Long idProduto) {
+        List<ProdutoImagens> listaProdutoImagens = produtoImagensRepository.findByProdutoId(idProduto);
+        for (ProdutoImagens produtoImagens : listaProdutoImagens) {
+            try (InputStream in = new FileInputStream("c:/imagens/" + produtoImagens.getNome())) {
+                produtoImagens.setArquivo(IOUtils.toByteArray(in));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return listaProdutoImagens;
     }
 }

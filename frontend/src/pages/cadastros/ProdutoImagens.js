@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import { FileUpload } from 'primereact/fileupload';
 import { DataView } from 'primereact/dataview';
 import { ProdutoService } from '../../service/cadastros/ProdutoService';
+import { ProdutoImagensService } from '../../service/cadastros/ProdutoImagensService';
 
 const ProdutoImagens = () => {
     let novaImagem = {
@@ -23,6 +24,7 @@ const ProdutoImagens = () => {
     const toast = useRef(null);
     const dt = useRef(null);
     const produtoService = new ProdutoService();
+    const produtoImagensService = new ProdutoImagensService();
 
     useEffect(() => {
         produtoService.buscarId(parametros.id).then(produto => {
@@ -49,6 +51,14 @@ const ProdutoImagens = () => {
         //  }); 
     }
 
+    const uploadImagens = (event) => {
+        produtoImagensService.uploadImagens({ file: event.files[0], idProduto: produto.id }).then(data => {
+            toast.current.show({ severity: 'success', summary: 'Sucesso', detail: 'Imagem inserida', life: 3000 });
+            // setObjetos(null);
+        });
+        event.options.clear();
+    }
+
     const renderGridItem = (data) => {
         return (
             <div className="col-12 md:col-4">
@@ -66,7 +76,7 @@ const ProdutoImagens = () => {
         return (
             <div className="grid grid-nogutter">
                 <div className="col-6" style={{ textAlign: 'left' }}>
-                    <FileUpload chooseLabel="Adicionar Imagem" mode="basic" accept="image/*" maxFileSize={1000000} />
+                    <FileUpload customUpload auto uploadHandler={uploadImagens} chooseLabel="Adicionar Imagem" mode="basic" accept="image/*" maxFileSize={1000000} />
                 </div>
                 <div className="col-6" style={{ textAlign: 'right' }}>
                     <h4>{produto.descricaoCurta}</h4>
