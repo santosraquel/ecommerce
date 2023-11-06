@@ -20,10 +20,10 @@ public class WebSecurityConfig {
     // @Autowired
     // private AuthEntryPointJwt unauthorizedHandler;
 
-    // @Bean
-    // public AuthFilterToken authFilterToken() {
-    // return new AuthFilterToken();
-    // }
+    @Bean
+    public AuthFilterToken authFilterToken() {
+        return new AuthFilterToken();
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -43,15 +43,8 @@ public class WebSecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeHttpRequests().requestMatchers("/api/pessoa-gerenciamento/**").permitAll()
                 .anyRequest().authenticated();
-        // http.cors().and().csrf().disable()
-        // // .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-        // .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        // .and().authorizeRequests().antMatchers("/api/pessoa-gerenciamento/**").permitAll()
-        // // .antMatchers("/api/pessoa/**").hasAnyAuthority("gerente")
-        // .anyRequest().authenticated();
 
-        // // http.addFilterBefore(authFilterToken(),
-        // // UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(authFilterToken(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
