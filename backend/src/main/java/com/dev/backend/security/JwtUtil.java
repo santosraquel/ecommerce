@@ -13,6 +13,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Component
 public class JwtUtil {
@@ -22,8 +23,8 @@ public class JwtUtil {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtil.class);
 
     public String gerarTokenUsername(Pessoa pessoa) {
-        return Jwts.builder().setSubject(pessoa.getUsername())
-                .setIssuedAt(new Date(new Date().getTime() + validadeToken))
+        return Jwts.builder().setSubject(pessoa.getUsername()).setIssuedAt(new Date())
+                .setExpiration(new Date(new Date().getTime() + validadeToken))
                 .signWith(SignatureAlgorithm.HS512, chaveSecreta).compact();
     }
 
@@ -31,7 +32,7 @@ public class JwtUtil {
         return Jwts.parser().setSigningKey(chaveSecreta).parseClaimsJws(token).getBody().getSubject();
     }
 
-    public boolean validarToken(String token) {
+    public boolean validarToken(String token, HttpServletRequest request) {
         try {
             Jwts.parser().setSigningKey(chaveSecreta).parseClaimsJws(token);
             return true;
@@ -39,6 +40,8 @@ public class JwtUtil {
             logger.error("Assinatura inválida", e.getMessage());
         } catch (ExpiredJwtException e) {
             logger.error("Token expirado", e.getMessage());
+            request.setAttribute("validacaoToken", "Token expirado");
+
         } catch (UnsupportedJwtException e) {
             logger.error("Token não suportado", e.getMessage());
         }

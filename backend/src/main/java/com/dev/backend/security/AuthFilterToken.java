@@ -26,17 +26,19 @@ public class AuthFilterToken extends OncePerRequestFilter {
     private PessoaDetailService pessoaDetailService;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+            FilterChain filterChain)
             throws ServletException, IOException {
         try {
             String jwt = getToken(request);
-            if (jwt != null && jwtUtil.validarToken(jwt)) {
+            if (jwt != null && jwtUtil.validarToken(jwt, request)) {
                 String email = jwtUtil.getEmailToken(jwt);
                 UserDetails userDetails = pessoaDetailService.loadUserByUsername(email);
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                        userDetails, userDetails.getAuthorities());
+                        userDetails, null, userDetails.getAuthorities());
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+
             }
         } catch (Exception e) {
             System.out.println("Erro de autenticação do usuário" + e.getMessage());
