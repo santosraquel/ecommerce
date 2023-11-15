@@ -54,7 +54,7 @@ import './assets/demo/flags/flags.css';
 import './assets/demo/Demos.scss';
 import './assets/layout/layout.scss';
 import './App.scss';
-import Login from './pages/Login';
+import Login from './pages/cadastros/Login';
 
 const App = () => {
     const [layoutMode, setLayoutMode] = useState('static');
