@@ -1,5 +1,7 @@
 package com.dev.backend.controller;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -46,7 +48,11 @@ public class PessoaGerenciamentoController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         Pessoa autenticado = (Pessoa) authentication.getPrincipal();
         String token = jwtUtil.gerarTokenUsername(autenticado);
-        return ResponseEntity.ok(token);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("token", token);
+        map.put("permissoes", autenticado.getAuthorities());
+        return ResponseEntity.ok(map);
+
     }
 
 }
