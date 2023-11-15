@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { ServiceBase } from '../cadastros/ServiceBase';
 
 export class LoginService extends ServiceBase {
@@ -10,7 +9,7 @@ export class LoginService extends ServiceBase {
     }
 
     login(email, senha, mensagemErro){
-        axios.post(this.url+"login",{'email':email, 'senha':senha}).then(res=>{
+        this.axiosInstance.post(this.url+"login",{'email':email, 'senha':senha}).then(res=>{
             localStorage.setItem(this.CHAVE_TOKEN, res.data.token);
             window.location.href = "/";
         }).catch(error=>{
