@@ -14,13 +14,13 @@ import { LoginService } from '../../service/util/LoginService';
 
     const fazerLogin = () =>{
         console.log(email+" "+senha);
-        loginService.login(email, senha);
+        loginService.login(email, senha, mostrarMensagemErro);
     }
 
-    // const mostrarMensagemErro = (erro) =>{
-    //     toast.current.show({ severity: 'error', summary: 'Erro', detail: erro, life: 3000 });
+    const mostrarMensagemErro = (erro) =>{
+        toast.current.show({ severity: 'error', summary: 'Erro', detail: erro, life: 3000 });
 
-    // }
+    }
 
         return (
             <div className="surface-ground px-4 py-8 md:px-6 lg:px-8 flex align-items-center justify-content-center">

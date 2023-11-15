@@ -55,6 +55,7 @@ import './assets/demo/Demos.scss';
 import './assets/layout/layout.scss';
 import './App.scss';
 import Login from './pages/cadastros/Login';
+import { LoginService } from './service/util/LoginService';
 
 const App = () => {
     const [layoutMode, setLayoutMode] = useState('static');
@@ -67,6 +68,7 @@ const App = () => {
     const [mobileTopbarMenuActive, setMobileTopbarMenuActive] = useState(false);
     const copyTooltipRef = useRef();
     const location = useLocation();
+    const loginService = new LoginService();
 
     PrimeReact.ripple = true;
 
@@ -373,7 +375,7 @@ const App = () => {
     return (
         <div>
             {
-                false ?
+                loginService.autenticado() ?
                 <Pagina/>
                 :
                 <Login/>
