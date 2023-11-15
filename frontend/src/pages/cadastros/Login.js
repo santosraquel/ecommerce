@@ -5,6 +5,7 @@ import { Toast } from 'primereact/toast';
 import React, { useRef, useState } from 'react';
 import { LoginService } from '../../service/util/LoginService';
 
+
     const Login = () => {
 
     const [email, setEmail] =  useState("");
@@ -23,11 +24,11 @@ import { LoginService } from '../../service/util/LoginService';
     }
 
         return (
-            <div className="surface-ground px-4 py-8 md:px-6 lg:px-8 flex align-items-center justify-content-center">
+            <div className="surface-ground px-4 py-8 md:px-6 lg:px-8 flex align-items-center justify-content-center bl">
                 <Toast ref={toast}/>
             <div className="surface-card p-4 shadow-2 border-round w-full lg:w-6">
                 <div className="text-center mb-5">
-                    <img src="images/blocks/logos/hyper.svg" alt="hyper" height="50" className="mb-3" />
+                    <img src="images/blocks/logos/logo2.png" alt="logo" height="200" className="mb-3" />
                     <div className="text-900 text-3xl font-medium mb-3">Login Painel Administrativo</div>
                 </div>
 
@@ -43,10 +44,10 @@ import { LoginService } from '../../service/util/LoginService';
                             <Checkbox inputId="rememberme1" binary className="mr-2"  />
                             <label htmlFor="rememberme1">Lembre-me</label>
                         </div>
-                        <button className="p-link font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer">Esqueceu sua senha?</button>
+                        <button className="p-link font-medium no-underline ml-2 text-pink-500 text-right cursor-pointer">Esqueceu sua senha?</button>
                     </div>
 
-                    <Button onClick={()=>fazerLogin()} label="Entrar" icon="pi pi-user" className="w-full" />
+                    <Button onClick={()=>fazerLogin()} label="Entrar" icon="pi pi-user" className="w-full" style={{backgroundColor:'#ff008d', border: '1px solid #ff8ed7'}}/>
                 </div>
             </div>
         </div>

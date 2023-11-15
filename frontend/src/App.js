@@ -376,6 +376,7 @@ const App = () => {
         <div>
             {
                 loginService.autenticado() ?
+                // true ?
                 <Pagina/>
                 :
                 <Login/>

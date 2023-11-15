@@ -16,7 +16,6 @@ import { CategoriaService } from '../../service/cadastros/CategoriaService';
 import { FornecedorService } from '../../service/cadastros/FornecedorService';
 import { ProdutoService } from '../../service/cadastros/ProdutoService';
 import { Link } from 'react-router-dom';
-import ColunaOpcoes from '../../components/ColunaOpcoes';
 
 const Produto = () => {
     let novoProduto = {
@@ -109,12 +108,12 @@ const Produto = () => {
         }
     }
 
-    const editObjeto = (produto) => {
+    const editProduto = (produto) => {
         setProduto({ ...produto });
         setProdutoDialog(true);
     }
 
-    const confirmDeleteObjeto = (produto) => {
+    const confirmDeleteProduto = (produto) => {
         setProduto(produto);
         setDeleteProdutoDialog(true);
     }
@@ -182,6 +181,18 @@ const Produto = () => {
         );
     }
 
+    const actionBodyTemplate = (rowData) => {
+        return (
+            <div className="actions">
+                 <Link to={{pathname:"/produtoImagens/"+rowData.id}}>
+                 <Button icon="pi pi-image" className="p-button-rounded p-button-info mr-2" />
+                 </Link>
+                <Button icon="pi pi-pencil" className="p-button-rounded p-button-primary mr-2" onClick={() => editProduto(rowData)} />
+                <Button icon="pi pi-trash" className="p-button-rounded p-button-danger mt-2" onClick={() => confirmDeleteProduto(rowData)} />
+            </div>
+        );
+    }
+
     const header = (
         <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
             <h5 className="m-0">Produtos Cadastrados</h5>
@@ -221,7 +232,7 @@ const Produto = () => {
                         <Column field="descricaoCurta" header="Descrição Curta" sortable body={descricaoCurtaBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         <Column field="tamanho" header="Tamanho" sortable body={tamanhoBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         <Column field="valorVenda" header="Valor Venda" sortable body={valorVendaBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
-                        <Column body={rowData => {return <ColunaOpcoes rowData={rowData} editObjeto={editObjeto} confirmDeleteObjeto={confirmDeleteObjeto}/>}}></Column>                    
+                        <Column header="Ações" body={actionBodyTemplate}></Column>
                     </DataTable>
 
                     <Dialog visible={produtoDialog} style={{ width: '450px' }} header="Cadastrar/Editar Produto" modal className="p-fluid" footer={produtoDialogFooter} onHide={hideDialog}>
