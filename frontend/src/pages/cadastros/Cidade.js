@@ -11,6 +11,7 @@ import { Dropdown } from 'primereact/dropdown';
 import axios from 'axios';
 import { CidadeService } from '../../service/cadastros/CidadeService';
 import {EstadoService} from '../../service/cadastros/EstadoService';
+import ColunaOpcoes from '../../components/ColunaOpcoes';
 
 const Cidade = () => {
     let novaCidade = {
@@ -83,12 +84,12 @@ const Cidade = () => {
         }
     }
 
-    const editCidade = (cidade) => {
+    const editObjeto = (cidade) => {
         setCidade({ ...cidade });
         setCidadeDialog(true);
     }
 
-    const confirmDeleteCidade = (cidade) => {
+    const confirmDeleteObjeto = (cidade) => {
         setCidade(cidade);
         setDeleteCidadeDialog(true);
     }
@@ -147,15 +148,6 @@ const Cidade = () => {
         );
     }
 
-    const actionBodyTemplate = (rowData) => {
-        return (
-            <div className="actions">
-                <Button icon="pi pi-pencil" className="p-button-rounded p-button-primary mr-2" onClick={() => editCidade(rowData)} />
-                <Button icon="pi pi-trash" className="p-button-rounded p-button-danger mt-2" onClick={() => confirmDeleteCidade(rowData)} />
-            </div>
-        );
-    }
-
     const header = (
         <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
             <h5 className="m-0">Cidades Cadastradas</h5>
@@ -194,7 +186,7 @@ const Cidade = () => {
                         <Column field="code" header="ID" sortable body={idBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         <Column field="name" header="Nome" sortable body={nomeBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         <Column field="estado" header="Estado" sortable body={estadoBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
-                        <Column header="Ações" body={actionBodyTemplate}></Column>
+                        <Column body={rowData => {return <ColunaOpcoes rowData={rowData} editObjeto={editObjeto} confirmDeleteObjeto={confirmDeleteObjeto}/>}}></Column>                    
                     </DataTable>
 
                     <Dialog visible={cidadeDialog} style={{ width: '450px' }} header="Cadastrar/Editar Cidade" modal className="p-fluid" footer={cidadeDialogFooter} onHide={hideDialog}>

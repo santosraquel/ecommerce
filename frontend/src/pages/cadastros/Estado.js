@@ -9,6 +9,8 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import axios from 'axios';
 import { EstadoService } from '../../service/cadastros/EstadoService';
+import ColunaOpcoes from '../../components/ColunaOpcoes';
+
 
 const Estado = () => {
     let novoEstado = {
@@ -73,12 +75,12 @@ const Estado = () => {
         }
     }
 
-    const editEstado = (estado) => {
+    const editObjeto = (estado) => {
         setEstado({ ...estado });
         setEstadoDialog(true);
     }
 
-    const confirmDeleteEstado = (estado) => {
+    const confirmDeleteObjeto = (estado) => {
         setEstado(estado);
         setDeleteEstadoDialog(true);
     }
@@ -137,14 +139,6 @@ const Estado = () => {
         );
     }
 
-    const actionBodyTemplate = (rowData) => {
-        return (
-            <div className="actions">
-                <Button icon="pi pi-pencil" className="p-button-rounded p-button-primary mr-2" onClick={() => editEstado(rowData)} />
-                <Button icon="pi pi-trash" className="p-button-rounded p-button-danger mt-2" onClick={() => confirmDeleteEstado(rowData)} />
-            </div>
-        );
-    }
 
     const header = (
         <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
@@ -184,7 +178,7 @@ const Estado = () => {
                         <Column field="code" header="ID" sortable body={idBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         <Column field="name" header="Nome" sortable body={nomeBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         <Column field="sigla" header="Sigla" sortable body={siglaBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
-                        <Column header="Ações" body={actionBodyTemplate}></Column>
+                        <Column body={rowData => {return <ColunaOpcoes rowData={rowData} editObjeto={editObjeto} confirmDeleteObjeto={confirmDeleteObjeto}/>}}></Column>                    
                     </DataTable>
 
                     <Dialog visible={estadoDialog} style={{ width: '450px' }} header="Cadastrar/Editar Estado" modal className="p-fluid" footer={estadoDialogFooter} onHide={hideDialog}>

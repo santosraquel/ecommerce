@@ -9,6 +9,7 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import axios from 'axios';
 import { FornecedorService } from '../../service/cadastros/FornecedorService';
+import ColunaOpcoes from '../../components/ColunaOpcoes';
 
 const Fornecedor = () => {
     let novoFornecedor = {
@@ -72,12 +73,12 @@ const Fornecedor = () => {
         }
     }
 
-    const editFornecedor = (fornecedor) => {
+    const editObjeto = (fornecedor) => {
         setFornecedor({ ...fornecedor });
         setFornecedorDialog(true);
     }
 
-    const confirmDeleteFornecedor = (fornecedor) => {
+    const confirmDeleteObjeto = (fornecedor) => {
         setFornecedor(fornecedor);
         setDeleteFornecedorDialog(true);
     }
@@ -127,15 +128,6 @@ const Fornecedor = () => {
         );
     }
 
-    const actionBodyTemplate = (rowData) => {
-        return (
-            <div className="actions">
-                <Button icon="pi pi-pencil" className="p-button-rounded p-button-primary mr-2" onClick={() => editFornecedor(rowData)} />
-                <Button icon="pi pi-trash" className="p-button-rounded p-button-danger mt-2" onClick={() => confirmDeleteFornecedor(rowData)} />
-            </div>
-        );
-    }
-
     const header = (
         <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
             <h5 className="m-0">Fornecedores Cadastrados</h5>
@@ -173,7 +165,7 @@ const Fornecedor = () => {
                         globalFilter={globalFilter} emptyMessage="No fornecedores found." header={header} responsiveLayout="scroll">
                         <Column field="code" header="ID" sortable body={idBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         <Column field="name" header="Nome" sortable body={nomeBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
-                        <Column header="Ações" body={actionBodyTemplate}></Column>
+                        <Column body={rowData => {return <ColunaOpcoes rowData={rowData} editObjeto={editObjeto} confirmDeleteObjeto={confirmDeleteObjeto}/>}}></Column>                    
                     </DataTable>
 
                     <Dialog visible={fornecedorDialog} style={{ width: '450px' }} header="Cadastrar/Editar Fornecedor" modal className="p-fluid" footer={fornecedorDialogFooter} onHide={hideDialog}>

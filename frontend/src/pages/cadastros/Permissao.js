@@ -9,6 +9,7 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import axios from 'axios';
 import { PermissaoService } from '../../service/cadastros/PermissaoService';
+import ColunaOpcoes from '../../components/ColunaOpcoes';
 
 const Permissao = () => {
     let novaPermissao = {
@@ -72,12 +73,12 @@ const Permissao = () => {
         }
     }
 
-    const editPermissao = (permissao) => {
+    const editObjeto = (permissao) => {
         setPermissao({ ...permissao });
         setPermissaoDialog(true);
     }
 
-    const confirmDeletePermissao = (permissao) => {
+    const confirmDeleteObjeto = (permissao) => {
         setPermissao(permissao);
         setDeletePermissaoDialog(true);
     }
@@ -126,16 +127,7 @@ const Permissao = () => {
             </>
         );
     }
-
-    const actionBodyTemplate = (rowData) => {
-        return (
-            <div className="actions">
-                <Button icon="pi pi-pencil" className="p-button-rounded p-button-primary mr-2" onClick={() => editPermissao(rowData)} />
-                <Button icon="pi pi-trash" className="p-button-rounded p-button-danger mt-2" onClick={() => confirmDeletePermissao(rowData)} />
-            </div>
-        );
-    }
-
+    
     const header = (
         <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
             <h5 className="m-0">Permissões Cadastradas</h5>
@@ -173,7 +165,7 @@ const Permissao = () => {
                         globalFilter={globalFilter} emptyMessage="No permissões found." header={header} responsiveLayout="scroll">
                         <Column field="code" header="ID" sortable body={idBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         <Column field="name" header="Nome" sortable body={nomeBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
-                        <Column header="Ações" body={actionBodyTemplate}></Column>
+                        <Column body={rowData => {return <ColunaOpcoes rowData={rowData} editObjeto={editObjeto} confirmDeleteObjeto={confirmDeleteObjeto}/>}}></Column>                    
                     </DataTable>
 
                     <Dialog visible={permissaoDialog} style={{ width: '450px' }} header="Cadastrar/Editar Permissão" modal className="p-fluid" footer={permissaoDialogFooter} onHide={hideDialog}>

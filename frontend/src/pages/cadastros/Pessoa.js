@@ -15,6 +15,7 @@ import axios from 'axios';
 import { PessoaService } from '../../service/cadastros/PessoaService';
 import { CidadeService } from '../../service/cadastros/CidadeService';
 import { PermissaoService } from '../../service/cadastros/PermissaoService';
+import ColunaOpcoes from '../../components/ColunaOpcoes';
 
 const Pessoa = () => {
     let novaPessoa = {
@@ -130,12 +131,12 @@ const Pessoa = () => {
         }
     }
 
-    const editPessoa = (pessoa) => {
+    const editObjeto = (pessoa) => {
         setPessoa({ ...pessoa });
         setPessoaDialog(true);
     }
 
-    const confirmDeletePessoa = (pessoa) => {
+    const confirmDeleteObjeto = (pessoa) => {
         setPessoa(pessoa);
         setDeletePessoaDialog(true);
     }
@@ -199,15 +200,6 @@ const Pessoa = () => {
         );
     }
 
-    const actionBodyTemplate = (rowData) => {
-        return (
-            <div className="actions">
-                <Button icon="pi pi-pencil" className="p-button-rounded p-button-primary mr-2" onClick={() => editPessoa(rowData)} />
-                <Button icon="pi pi-trash" className="p-button-rounded p-button-danger mt-2" onClick={() => confirmDeletePessoa(rowData)} />
-            </div>
-        );
-    }
-
     const header = (
         <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
             <h5 className="m-0">Pessoas Cadastradas</h5>
@@ -246,7 +238,7 @@ const Pessoa = () => {
                         <Column field="code" header="ID" sortable body={idBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         <Column field="name" header="Nome" sortable body={nomeBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         <Column field="email" header="E-mail" sortable body={emailBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
-                        <Column header="Ações" body={actionBodyTemplate}></Column>
+                        <Column body={rowData => {return <ColunaOpcoes rowData={rowData} editObjeto={editObjeto} confirmDeleteObjeto={confirmDeleteObjeto}/>}}></Column>                    
                     </DataTable>
 
                     <Dialog visible={pessoaDialog} style={{ width: '450px' }} header="Cadastrar/Editar Pessoa" modal className="p-fluid" footer={pessoaDialogFooter} onHide={hideDialog}>
