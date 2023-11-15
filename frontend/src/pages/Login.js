@@ -11,8 +11,6 @@ const Login = () => {
                     <div className="text-center mb-5">
                         <img src="images/blocks/logos/hyper.svg" alt="hyper" height="50" className="mb-3" />
                         <div className="text-900 text-3xl font-medium mb-3">Login Painel Administrativo</div>
-                        <span className="text-600 font-medium line-height-3">Não tem uma conta?</span>
-                        <button className="p-link font-medium no-underline ml-2 text-blue-500 cursor-pointer">Criar conta!</button>
                     </div>
 
                     <div>
