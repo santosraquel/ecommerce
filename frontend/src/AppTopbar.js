@@ -1,4 +1,5 @@
 import React  from 'react';
+import '../src/assets/layout/AppTopBar.css';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { LoginService } from './service/util/LoginService';
@@ -10,7 +11,7 @@ export const AppTopbar = (props) => {
     return (
         <div className="layout-topbar">
             <Link to="/" className="layout-topbar-logo">
-                <img src={props.layoutColorMode === 'light' ? 'assets/layout/images/logo-dark.svg' : 'assets/layout/images/logo-white.svg'} alt="logo"/>
+                <img src={props.layoutColorMode === 'light' ? 'images/blocks/logos/logo4.png' : ''} alt="logo" height="200" className='img'/>
                 <span>Rosa Neon</span>
             </Link>
 
@@ -23,18 +24,18 @@ export const AppTopbar = (props) => {
             </button>
 
                 <ul className={classNames("layout-topbar-menu lg:flex origin-top", {'layout-topbar-menu-mobile-active': props.mobileTopbarMenuActive })}>
-                    <li>
+                    {/* <li>
                         <button className="p-link layout-topbar-button" onClick={props.onMobileSubTopbarMenuClick}>
                             <i className="pi pi-calendar"/>
                             <span>Events</span>
                         </button>
-                    </li>
-                    <li>
+                    </li> */}
+                    {/* <li>
                         <button className="p-link layout-topbar-button" onClick={props.onMobileSubTopbarMenuClick}>
                             <i className="pi pi-cog"/>
                             <span>Settings</span>
                         </button>
-                    </li>
+                    </li> */}
                     <li>
                         <button className="p-link layout-topbar-button" onClick={()=>loginService.sair()}>
                             <i className="pi pi-user"/>

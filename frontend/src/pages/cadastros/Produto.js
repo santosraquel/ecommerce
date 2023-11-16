@@ -139,7 +139,7 @@ const Produto = () => {
         return (
             <React.Fragment>
                 <div className="my-2">
-                    <Button label="Novo Produto" icon="pi pi-plus" className="p-button-success mr-2" onClick={openNew} />
+                    <Button label="Novo Produto" icon="pi pi-plus" className="mr-2" style={{backgroundColor:'#ff008d'}} onClick={openNew} />
                 </div>
             </React.Fragment>
         )
@@ -185,9 +185,9 @@ const Produto = () => {
         return (
             <div className="actions">
                  <Link to={{pathname:"/produtoImagens/"+rowData.id}}>
-                 <Button icon="pi pi-image" className="p-button-rounded p-button-info mr-2" />
+                 <Button icon="pi pi-image" className="p-button-rounded p-button-primary mr-2" />
                  </Link>
-                <Button icon="pi pi-pencil" className="p-button-rounded p-button-primary mr-2" onClick={() => editProduto(rowData)} />
+                <Button icon="pi pi-pencil" className="p-button-rounded p-button-info mr-2" onClick={() => editProduto(rowData)} />
                 <Button icon="pi pi-trash" className="p-button-rounded p-button-danger mt-2" onClick={() => confirmDeleteProduto(rowData)} />
             </div>
         );
@@ -195,10 +195,10 @@ const Produto = () => {
 
     const header = (
         <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-            <h5 className="m-0">Produtos Cadastrados</h5>
+            <h4 className="m-0" style={{color: '#ff008d'}}>Produtos Cadastrados</h4>
             <span className="block mt-2 md:mt-0 p-input-icon-left">
                 <i className="pi pi-search" />
-                <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search..." />
+                <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Pesquisar" />
             </span>
         </div>
     );
@@ -226,8 +226,8 @@ const Produto = () => {
                     <DataTable ref={dt} value={produtos}
                         dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]} className="datatable-responsive"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} produtos"
-                        globalFilter={globalFilter} emptyMessage="No produtos found." header={header} responsiveLayout="scroll">
+                        currentPageReportTemplate="Mostrando {first} de {last}. Total de {totalRecords}"
+                        globalFilter={globalFilter} emptyMessage="Não há dados cadastrados." header={header} responsiveLayout="scroll">
                         <Column field="code" header="ID" sortable body={idBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         <Column field="descricaoCurta" header="Descrição Curta" sortable body={descricaoCurtaBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         <Column field="tamanho" header="Tamanho" sortable body={tamanhoBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>

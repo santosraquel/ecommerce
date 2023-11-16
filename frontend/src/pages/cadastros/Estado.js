@@ -106,7 +106,7 @@ const Estado = () => {
         return (
             <React.Fragment>
                 <div className="my-2">
-                    <Button label="Novo Estado" icon="pi pi-plus" className="p-button-success mr-2" onClick={openNew} />
+                    <Button label="Novo Estado" icon="pi pi-plus" className="mr-2" onClick={openNew} style={{backgroundColor:'#ff008d'}}/>
                 </div>
             </React.Fragment>
         )
@@ -142,10 +142,10 @@ const Estado = () => {
 
     const header = (
         <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-            <h5 className="m-0">Estados Cadastrados</h5>
+            <h4 className="m-0" style={{color: '#ff008d'}}>Estados Cadastrados</h4>
             <span className="block mt-2 md:mt-0 p-input-icon-left">
                 <i className="pi pi-search" />
-                <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search..." />
+                <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Pesquisar" />
             </span>
         </div>
     );
@@ -173,8 +173,8 @@ const Estado = () => {
                     <DataTable ref={dt} value={estados}
                         dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]} className="datatable-responsive"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} estados"
-                        globalFilter={globalFilter} emptyMessage="No estados found." header={header} responsiveLayout="scroll">
+                        currentPageReportTemplate="Mostrando {first} de {last}. Total de {totalRecords}"
+                        globalFilter={globalFilter} emptyMessage="Não há dados cadastrados." header={header} responsiveLayout="scroll">
                         <Column field="code" header="ID" sortable body={idBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         <Column field="name" header="Nome" sortable body={nomeBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         <Column field="sigla" header="Sigla" sortable body={siglaBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
