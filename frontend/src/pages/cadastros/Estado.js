@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import '../../assets/layout/TitleDialog.css';
 import classNames from 'classnames';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
@@ -181,7 +182,7 @@ const Estado = () => {
                         <Column body={rowData => {return <ColunaOpcoes rowData={rowData} editObjeto={editObjeto} confirmDeleteObjeto={confirmDeleteObjeto}/>}}></Column>                    
                     </DataTable>
 
-                    <Dialog visible={estadoDialog} style={{ width: '450px' }} header="Cadastrar/Editar Estado" modal className="p-fluid" footer={estadoDialogFooter} onHide={hideDialog}>
+                    <Dialog visible={estadoDialog} style={{ width: '450px' }} header="Cadastrar/Editar Estado" modal className="p-fluid title-dialog" footer={estadoDialogFooter} onHide={hideDialog}>
                         <div className="field">
                             <label htmlFor="nome">Nome</label>
                             <InputText id="nome" value={estado.nome} onChange={(e) => onInputChange(e, 'nome')} required autoFocus className={classNames({ 'p-invalid': submitted && !estado.nome })} />

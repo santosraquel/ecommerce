@@ -3931,6 +3931,7 @@
 .p-dialog .p-dialog-header {
   border-bottom: 0 none;
   background: #1f2d40;
+  /* color: #ff008d; */
   color: rgba(255, 255, 255, 0.87);
   padding: 1.5rem;
   border-top-right-radius: 3px;
