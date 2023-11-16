@@ -178,14 +178,14 @@ const App = () => {
         {
             label: 'Cadastros',
             items: [
-                {label: 'Estados', icon: 'pi pi-fw pi-id-card', to: '/estados'},
-                {label: 'Cidades', icon: 'pi pi-fw pi-id-card', to: '/cidades'},
-                {label: 'Marcas', icon: 'pi pi-fw pi-id-card', to: '/marcas'},
+                {label: 'Estados', icon: 'pi pi-fw pi-map', to: '/estados'},
+                {label: 'Cidades', icon: 'pi pi-fw pi-building', to: '/cidades'},
+                {label: 'Marcas', icon: 'pi pi-fw pi-tags', to: '/marcas'},
                 {label: 'Categorias', icon: 'pi pi-fw pi-id-card', to: '/categorias'},
-                {label: 'Fornecedores', icon: 'pi pi-fw pi-id-card', to: '/fornecedores'},
-                {label: 'Produtos', icon: 'pi pi-fw pi-id-card', to: '/produtos'},
-                {label: 'Permissões', icon: 'pi pi-fw pi-id-card', to: '/permissoes'},
-                {label: 'Pessoas', icon: 'pi pi-fw pi-id-card', to: '/pessoas'},
+                {label: 'Fornecedores', icon: 'pi pi-fw pi-car', to: '/fornecedores'},
+                {label: 'Produtos', icon: 'pi pi-fw pi-shopping-bag', to: '/produtos'},
+                {label: 'Permissões', icon: 'pi pi-fw pi-lock', to: '/permissoes'},
+                {label: 'Pessoas', icon: 'pi pi-fw pi-users', to: '/pessoas'},
             ]
         },
         {
