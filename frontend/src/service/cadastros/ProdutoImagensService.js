@@ -15,6 +15,7 @@ export class ProdutoImagensService extends ServiceBase {
                 'content-type':'multipart/form-data'
             }
         }
+        console.log(formData);
         return this.axiosInstance.post(this.url, formData, config);
     }
 
