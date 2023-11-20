@@ -56,6 +56,7 @@ import './assets/layout/layout.scss';
 import './App.scss';
 import Login from './pages/cadastros/Login';
 import { LoginService } from './service/util/LoginService';
+import EnderecoEntrega from './pages/cadastros/EnderecoEntrega';
 
 const App = () => {
     const [layoutMode, setLayoutMode] = useState('static');
@@ -172,7 +173,7 @@ const App = () => {
         {
             label: 'Home',
             items: [{
-                label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/'
+                label: 'Dashboard', icon: 'pi pi-fw pi-th-large', to: '/'
             }]
         },
         {
@@ -180,6 +181,7 @@ const App = () => {
             items: [
                 {label: 'Estados', icon: 'pi pi-fw pi-map', to: '/estados'},
                 {label: 'Cidades', icon: 'pi pi-fw pi-building', to: '/cidades'},
+                {label: 'Endereços Entrega', icon: 'pi pi-fw pi-home', to: '/enderecoEntrega'},
                 {label: 'Marcas', icon: 'pi pi-fw pi-tags', to: '/marcas'},
                 {label: 'Categorias', icon: 'pi pi-fw pi-id-card', to: '/categorias'},
                 {label: 'Fornecedores', icon: 'pi pi-fw pi-car', to: '/fornecedores'},
@@ -326,6 +328,7 @@ const App = () => {
                         <Route path="/" exact render={() => <Dashboard colorMode={layoutColorMode} location={location} />} />
                         <Route path="/estados" component={Estado} />
                         <Route path="/cidades" component={Cidade} />
+                        <Route path="/enderecoEntrega" component={EnderecoEntrega} />
                         <Route path="/marcas" component={Marca} />
                         <Route path="/categorias" component={Categoria} />
                         <Route path="/fornecedores" component={Fornecedor} />
