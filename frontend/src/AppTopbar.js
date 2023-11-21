@@ -24,21 +24,9 @@ export const AppTopbar = (props) => {
             </button>
 
                 <ul className={classNames("layout-topbar-menu lg:flex origin-top", {'layout-topbar-menu-mobile-active': props.mobileTopbarMenuActive })}>
-                    {/* <li>
-                        <button className="p-link layout-topbar-button" onClick={props.onMobileSubTopbarMenuClick}>
-                            <i className="pi pi-calendar"/>
-                            <span>Events</span>
-                        </button>
-                    </li> */}
-                    {/* <li>
-                        <button className="p-link layout-topbar-button" onClick={props.onMobileSubTopbarMenuClick}>
-                            <i className="pi pi-cog"/>
-                            <span>Settings</span>
-                        </button>
-                    </li> */}
                     <li>
                         <button className="p-link layout-topbar-button" onClick={()=>loginService.sair()}>
-                            <i className="pi pi-user"/>
+                            <i className="pi pi-sign-out"></i>
                             <span>Sair</span>
                         </button>
                     </li>
