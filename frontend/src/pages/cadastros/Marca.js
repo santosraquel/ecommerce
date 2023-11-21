@@ -13,7 +13,7 @@ import ColunaOpcoes from '../../components/ColunaOpcoes';
 
 const Marca = () => {
     let novaMarca = {
-        name: '',
+        nome: '',
     };
 
     const [marcas, setMarcas] = useState(null);
@@ -164,13 +164,17 @@ const Marca = () => {
                         currentPageReportTemplate="Mostrando {first} de {last}. Total de {totalRecords}"
                         globalFilter={globalFilter} emptyMessage="Não há dados cadastrados." header={header} responsiveLayout="scroll">
                         <Column field="code" header="ID" sortable body={idBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
-                        <Column field="name" header="Nome" sortable body={nomeBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
+                        <Column field="nome" header="Nome" sortable body={nomeBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         <Column body={rowData => {return <ColunaOpcoes rowData={rowData} editObjeto={editObjeto} confirmDeleteObjeto={confirmDeleteObjeto}/>}}></Column>                    
                     </DataTable>
 
                     <Dialog visible={marcaDialog} style={{ width: '450px' }} header="Cadastrar/Editar Marca" modal className="p-fluid" footer={marcaDialogFooter} onHide={hideDialog}>
+                        <div>
+                            <span>(*)Campos obrigatórios</span>
+                        </div>
+                            <br></br>
                         <div className="field">
-                            <label htmlFor="nome">Nome</label>
+                            <label htmlFor="nome">Nome*</label>
                             <InputText id="nome" value={marca.nome} onChange={(e) => onInputChange(e, 'nome')} required autoFocus className={classNames({ 'p-invalid': submitted && !marca.nome })} />
                             {submitted && !marca.nome && <small className="p-invalid">Campo obrigatório.</small>}
                         </div>

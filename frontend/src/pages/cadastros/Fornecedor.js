@@ -169,8 +169,12 @@ const Fornecedor = () => {
                     </DataTable>
 
                     <Dialog visible={fornecedorDialog} style={{ width: '450px' }} header="Cadastrar/Editar Fornecedor" modal className="p-fluid" footer={fornecedorDialogFooter} onHide={hideDialog}>
+                        <div>
+                            <span>(*)Campos obrigatórios</span>
+                        </div>
+                            <br></br>
                         <div className="field">
-                            <label htmlFor="nome">Nome</label>
+                            <label htmlFor="nome">Nome*</label>
                             <InputText id="nome" value={fornecedor.nome} onChange={(e) => onInputChange(e, 'nome')} required autoFocus className={classNames({ 'p-invalid': submitted && !fornecedor.nome })} />
                             {submitted && !fornecedor.nome && <small className="p-invalid">Campo obrigatório.</small>}
                         </div>

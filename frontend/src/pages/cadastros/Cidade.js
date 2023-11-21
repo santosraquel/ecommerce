@@ -190,16 +190,22 @@ const Cidade = () => {
                     </DataTable>
 
                     <Dialog visible={cidadeDialog} style={{ width: '450px' }} header="Cadastrar/Editar Cidade" modal className="p-fluid" footer={cidadeDialogFooter} onHide={hideDialog}>
+                        <div>
+                            <span>(*)Campos obrigatórios</span>
+                        </div>
+                            <br></br>
                         <div className="field">
-                            <label htmlFor="nome">Nome</label>
+                            <label htmlFor="nome">Nome*</label>
                             <InputText id="nome" value={cidade.nome} onChange={(e) => onInputChange(e, 'nome')} required autoFocus className={classNames({ 'p-invalid': submitted && !cidade.nome })} />
                             {submitted && !cidade.nome && <small className="p-invalid">Campo obrigatório.</small>}
                         </div>
 
                         <div className="field">
-                            <label htmlFor="estado">Estado</label>
+                            <label htmlFor="estado">Estado*</label>
                             <Dropdown value={cidade.estado} onChange={(e) => onInputChange(e, 'estado')} options={estados} optionLabel="nome" 
-    placeholder="Selecione um Estado" filter/>
+    placeholder="Selecione um Estado" required autoFocus className={classNames({ 'p-invalid': submitted && !cidade.estado })}filter/>
+                                {submitted && !cidade.estado && <small className="p-invalid">Campo obrigatório.</small>}
+
                         </div>
                       
                     </Dialog>

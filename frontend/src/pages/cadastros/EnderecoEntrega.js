@@ -12,6 +12,7 @@ import axios from 'axios';
 import ColunaOpcoes from '../../components/ColunaOpcoes';
 import { EnderecoEntregaService } from '../../service/cadastros/EnderecoEntregaService';
 import { PessoaService } from '../../service/cadastros/PessoaService';
+import { InputMask } from 'primereact/inputmask';
 
 const EnderecoEntrega = () => {
     let novoEnderecoEntrega = {
@@ -235,7 +236,7 @@ const EnderecoEntrega = () => {
                         </div>
                         <div className="field">
                             <label htmlFor="cep">CEP*</label>
-                            <InputText id="cep" value={endereco.cep} onChange={(e) => onInputChange(e, 'cep')} required autoFocus className={classNames({ 'p-invalid': submitted && !endereco.cep })} />
+                            <InputMask mask="99999-999" id="cep" name="cep" value={endereco.cep} onChange={(e) => onInputChange(e, 'cep')} autoFocus required className={classNames({ 'p-invalid': submitted && !endereco.cep })} />
                             {submitted && !endereco.cep && <small className="p-invalid">Campo obrigatório.</small>}
                         </div>
                         <div className="field">

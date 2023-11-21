@@ -8,7 +8,6 @@ import { Toolbar } from 'primereact/toolbar';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
-import { MultiSelect } from 'primereact/multiselect';
 import { InputNumber } from 'primereact/inputnumber';
 import axios from 'axios';
 import { MarcaService } from '../../service/cadastros/MarcaService';
@@ -91,18 +90,18 @@ const Produto = () => {
         if (produto.descricaoCurta.trim()) {
             let _produto = { ...produto };
             if (produto.id) {
-                produtoService.alterar(_produto).then(data => {
-                    toast.current.show({ severity: 'success', summary: 'Successo', detail: 'Produto atualizado com sucesso.', life: 3000 });
+                produtoService.alterar(produto).then(data => {
+                    toast.current.show({ severity: 'success', summary: 'Sucesso', detail: 'Produto alterado com Sucesso', life: 3000 });
                     setProdutos(null);
                 });
             }
             else {
-                produtoService.inserir(_produto).then(data => {
-                    toast.current.show({ severity: 'success', summary: 'Successo', detail: 'Produto salvo com sucesso.', life: 3000 });
+                produtoService.inserir(produto).then(data => {
+                    toast.current.show({ severity: 'success', summary: 'Sucesso', detail: 'Produto inserido com Sucesso', life: 3000 });
                     setProdutos(null);
                 });
-            }
 
+            }
             setProdutoDialog(false);
             setProduto(novoProduto);
         }
@@ -236,57 +235,60 @@ const Produto = () => {
                     </DataTable>
 
                     <Dialog visible={produtoDialog} style={{ width: '450px' }} header="Cadastrar/Editar Produto" modal className="p-fluid" footer={produtoDialogFooter} onHide={hideDialog}>
-                      
+                        <div>
+                            <span>(*)Campos obrigatórios</span>
+                        </div>
+                            <br></br>
                         <div className="field">
-                            <label htmlFor="descricaoCurta">Descrição Curta</label>
+                            <label htmlFor="descricaoCurta">Descrição Curta*</label>
                             <InputText id="descricaoCurta" value={produto.descricaoCurta} onChange={(e) => onInputChange(e, 'descricaoCurta')} required autoFocus className={classNames({ 'p-invalid': submitted && !produto.descricaoCurta })} />
                             {submitted && !produto.descricaoCurta && <small className="p-invalid">Campo obrigatório.</small>}
                         </div>
 
                         <div className="field">
-                            <label htmlFor="descricaoDetalhada">Descrição Detalhada</label>
+                            <label htmlFor="descricaoDetalhada">Descrição Detalhada*</label>
                             <InputText id="descricaoDetalhada" value={produto.descricaoDetalhada} onChange={(e) => onInputChange(e, 'descricaoDetalhada')} required autoFocus className={classNames({ 'p-invalid': submitted && !produto.descricaoDetalhada })} />
                             {submitted && !produto.descricaoDetalhada && <small className="p-invalid">Campo obrigatório.</small>}
                         </div>
 
                         <div className="field">
-                            <label htmlFor="valorCusto">Valor Custo</label>
-                            <InputNumber mode="currency" currency="BRL" locale="pt-BR" id="valorCusto" value={produto.valorCusto} onChange={(e) => onInputChange(e, 'valorCusto')} required autoFocus className={classNames({ 'p-invalid': submitted && !produto.valorCusto })} />
+                            <label htmlFor="valorCusto">Valor Custo*</label>
+                            <InputNumber mode="currency" currency="BRL" locale="pt-BR" id="valorCusto" name="valorCusto" value={produto.valorCusto} onChange={(e) => onInputChange(e, 'valorCusto')} required autoFocus className={classNames({ 'p-invalid': submitted && !produto.valorCusto })} />
                             {submitted && !produto.valorCusto && <small className="p-invalid">Campo obrigatório.</small>}
                         </div>
 
                         <div className="field">
-                            <label htmlFor="valorVenda">Valor Venda</label>
-                            <InputNumber mode="currency" currency="BRL" locale="pt-BR" id="valorVenda" value={produto.valorVenda} onChange={(e) => onInputChange(e, 'valorVenda')} required autoFocus className={classNames({ 'p-invalid': submitted && !produto.valorVenda })} />
+                            <label htmlFor="valorVenda">Valor Venda*</label>
+                            <InputNumber mode="currency" currency="BRL" locale="pt-BR" id="valorVenda" name="valorVenda" value={produto.valorVenda} onChange={(e) => onInputChange(e, 'valorVenda')} required autoFocus className={classNames({ 'p-invalid': submitted && !produto.valorVenda })} />
                             {submitted && !produto.valorVenda && <small className="p-invalid">Campo obrigatório.</small>}
                         </div>
 
                         <div className="field">
-                            <label htmlFor="tamanho">Tamanho</label>
+                            <label htmlFor="tamanho">Tamanho*</label>
                             <InputText id="tamanho" value={produto.tamanho} onChange={(e) => onInputChange(e, 'tamanho')} required autoFocus className={classNames({ 'p-invalid': submitted && !produto.tamanho })} />
                             {submitted && !produto.tamanho && <small className="p-invalid">Campo obrigatório.</small>}
                         </div>
 
                         <div className="field">
-                            <label htmlFor="quantidadeEstoque">Qtd. Estoque</label>
+                            <label htmlFor="quantidadeEstoque">Qtd. Estoque*</label>
                             <InputText id="quantidadeEstoque" value={produto.quantidadeEstoque} onChange={(e) => onInputChange(e, 'quantidadeEstoque')} required autoFocus className={classNames({ 'p-invalid': submitted && !produto.quantidadeEstoque })} />
                             {submitted && !produto.quantidadeEstoque && <small className="p-invalid">Campo obrigatório.</small>}
                         </div>
 
                         <div className="field">
-                            <label htmlFor="marca">Marca</label>
+                            <label htmlFor="marca">Marca*</label>
                             <Dropdown value={produto.marca} onChange={(e) => onInputChange(e, 'marca')} options={marcas} optionLabel="nome" 
     placeholder="Selecione uma marca" filter/>
                         </div>
 
                         <div className="field">
-                            <label htmlFor="categoria">Categoria</label>
+                            <label htmlFor="categoria">Categoria*</label>
                             <Dropdown value={produto.categoria} onChange={(e) => onInputChange(e, 'categoria')} options={categorias} optionLabel="nome" 
     placeholder="Selecione uma categoria" filter/>
                         </div>
 
                         <div className="field">
-                            <label htmlFor="fornecedor">Fornecedor</label>
+                            <label htmlFor="fornecedor">Fornecedor*</label>
                             <Dropdown value={produto.fornecedor} onChange={(e) => onInputChange(e, 'fornecedor')} options={fornecedores} optionLabel="nome" 
     placeholder="Selecione uma fornecedor" filter/>
                         </div>
@@ -296,7 +298,7 @@ const Produto = () => {
                     <Dialog visible={deleteProdutoDialog} style={{ width: '450px' }} header="Excluir Produto" modal footer={deleteProdutoDialogFooter} onHide={hideDeleteProdutoDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                            {produto && <span>Tem certeza que deseja excluir a produto <b>{produto.nome}</b>?</span>}
+                            {produto && <span>Tem certeza que deseja excluir o produto <b>{produto.descricaoCurta}</b>?</span>}
                         </div>
                     </Dialog>
                 </div>

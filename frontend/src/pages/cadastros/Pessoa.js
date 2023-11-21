@@ -288,20 +288,24 @@ const Pessoa = () => {
 
                     <Dialog visible={pessoaDialog} style={{ width: '450px' }} header="Cadastrar/Editar Pessoa" modal className="p-fluid" footer={pessoaDialogFooter} onHide={hideDialog}>
                         <form id="formularioPessoa" onSubmit={formik.handleSubmit}>
+                            <div>
+                                <span>(*)Campos obrigatórios</span>
+                            </div>
+                                <br></br>
                             <div className="field">
-                                <label htmlFor="nome">Nome</label>
+                                <label htmlFor="nome">Nome*</label>
                                 <InputText id="nome" value={formik.values.nome} onChange={formik.handleChange} autoFocus className={classNames({ 'p-invalid': isFormFieldValid('nome') })} />
                                 {getFormErrorMessage('nome')}
                             </div>
 
                             <div className="field">
-                                <label htmlFor="cpf">CPF</label>
+                                <label htmlFor="cpf">CPF*</label>
                                 <InputMask mask="999.999.999-99" id="cpf" value={formik.values.cpf} onChange={formik.handleChange} autoFocus className={classNames({ 'p-invalid': isFormFieldValid('cpf') })}/>
                                 {getFormErrorMessage('cpf')}
                             </div>
 
                             <div className="field">
-                                <label htmlFor="email">E-mail</label>
+                                <label htmlFor="email">E-mail*</label>
                                 <InputText id="email" value={formik.values.email} onChange={formik.handleChange} autoFocus className={classNames({ 'p-invalid': isFormFieldValid('email') })} />
                                 {getFormErrorMessage('email')}
                             </div>

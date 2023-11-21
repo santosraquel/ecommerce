@@ -170,8 +170,12 @@ const Categoria = () => {
                     </DataTable>
 
                     <Dialog visible={categoriaDialog} style={{ width: '450px' }} header="Cadastrar/Editar Categoria" modal className="p-fluid" footer={categoriaDialogFooter} onHide={hideDialog}>
+                         <div>
+                            <span>(*)Campos obrigatórios</span>
+                        </div>
+                            <br></br>
                         <div className="field">
-                            <label htmlFor="nome">Nome</label>
+                            <label htmlFor="nome">Nome*</label>
                             <InputText id="nome" value={categoria.nome} onChange={(e) => onInputChange(e, 'nome')} required autoFocus className={classNames({ 'p-invalid': submitted && !categoria.nome })} />
                             {submitted && !categoria.nome && <small className="p-invalid">Campo obrigatório.</small>}
                         </div>
